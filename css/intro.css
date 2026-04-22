@@ -77,7 +77,7 @@
   pointer-events: none; overflow: hidden;
   display: flex; flex-direction: column;
 }
-#page-pfp.pg-on { transform: none; opacity: 1; pointer-events: auto; }
+#page-pfp.pg-on { transform: none; opacity: 1; pointer-events: auto; overflow-y: auto; overflow-x: hidden; }
 #page-main.pg-off { transform: translateX(-22%); opacity: 0; pointer-events: none; }
 
 ::-webkit-scrollbar { width: 3px; }
