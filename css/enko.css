@@ -397,7 +397,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--f-mono);
   font-size: 11px;
   color: var(--ink-soft);
-  max-width: 34ch;
+  white-space: nowrap;
   text-align: right;
   line-height: 1.5;
 }
