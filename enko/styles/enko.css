@@ -598,6 +598,7 @@ img { display: block; max-width: 100%; }
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+  padding-left: 12px;
 }
 .clear-slot {
   font-family: var(--f-mono);
@@ -733,7 +734,7 @@ img { display: block; max-width: 100%; }
 }
 .tab {
   flex: 1;
-  padding: 14px 0;
+  padding: 14px 0 14px 20px;
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: 0.14em;
