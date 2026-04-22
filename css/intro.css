@@ -16,25 +16,25 @@
 
 /* ── INTRO ── */
 #intro {
-  position: fixed; inset: 0; background: #000;
+  position: fixed; inset: 0; background: var(--bg);
   display: flex; align-items: center; justify-content: center;
   z-index: 7000;
 }
 .intro-text {
   font-size: .9rem; letter-spacing: 2px;
-  color: #00d4aa; text-shadow: 0 0 14px #00d4aa;
+  color: var(--accent); text-shadow: 0 0 14px color-mix(in oklab, var(--accent) 60%, transparent);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
 }
 .blink {
   display: inline-block; width: 8px; height: .9em;
-  background: #00d4aa; margin-left: 2px; vertical-align: text-bottom;
+  background: var(--accent); margin-left: 2px; vertical-align: text-bottom;
   animation: blink .9s step-end infinite;
 }
 @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
 /* ── ENTRY ── */
 #entry {
-  position: fixed; inset: 0; background: #000;
+  position: fixed; inset: 0; background: var(--bg);
   display: none; flex-direction: column;
   align-items: center; justify-content: center;
   z-index: 6000; opacity: 0; transition: opacity .7s; gap: 1.8rem;
@@ -49,15 +49,17 @@
 }
 .gate-hint {
   font-size: .65rem; letter-spacing: 3px; white-space: nowrap;
-  color: rgba(184,216,176,.45);
+  color: var(--ink-soft);
+  text-shadow: 0 0 12px color-mix(in oklab, var(--ink-soft) 60%, transparent);
   animation: dimfade 2s ease-in-out infinite;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
 }
 .gate-hint.ready {
-  color: #ffb800;
+  color: var(--accent);
+  text-shadow: 0 0 14px color-mix(in oklab, var(--accent) 70%, transparent);
   animation: dimfade .55s ease-in-out infinite;
 }
-@keyframes dimfade { 0%,100% { opacity: .2; } 50% { opacity: .7; } }
+@keyframes dimfade { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
 
 /* ── MAIN WRAPPER ── */
 #main { display: none; opacity: 0; transition: opacity .6s; }

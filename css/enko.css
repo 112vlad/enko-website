@@ -426,6 +426,20 @@ img { display: block; max-width: 100%; }
   position: relative;
   overflow: hidden;
 }
+.feature-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg,
+    color-mix(in oklab, var(--ink) 3%, transparent) 0 2px,
+    transparent 2px 16px);
+  z-index: 0;
+  pointer-events: none;
+}
+.feature-image img {
+  position: relative;
+  z-index: 1;
+}
 .feature-image .placeholder {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;

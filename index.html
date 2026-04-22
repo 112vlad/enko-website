@@ -17,6 +17,9 @@
 <!-- BOWTIE CURSOR (hidden until after entry) -->
 <div id="papion-cur"><img src="papion.png" alt=""></div>
 
+<!-- GLOBAL PARTICLE OVERLAY -->
+<canvas id="particle-overlay" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998;"></canvas>
+
 <!-- ══ INTRO ══ -->
 <div id="intro"><p class="intro-text" id="itxt"></p></div>
 
@@ -148,29 +151,24 @@
                 <circle cx="200" cy="220" r="146" fill="none" stroke="#04030a" stroke-width="1"/>
                 <circle cx="200" cy="220" r="142" fill="none" stroke="#5a5042" stroke-width="0.3" stroke-dasharray="0.5 2.5" opacity="0.5"/>
                 <circle cx="200" cy="220" r="148" fill="url(#specular)"/>
-                <!-- girafa.png clipped to inner medallion circle -->
-                <image href="girafa.png" x="56" y="76" width="288" height="288" clip-path="url(#faceClip)" preserveAspectRatio="xMidYMid meet"/>
+                <!-- profile photo clipped to inner medallion circle -->
+                <image href="girafacoin.png" x="56" y="76" width="288" height="288" clip-path="url(#faceClip)" preserveAspectRatio="xMidYMid slice"/>
                 <g transform="translate(200 370)">
-                  <line x1="-36" y1="0" x2="-14" y2="0" stroke="#5a5042" stroke-width="0.5"/>
-                  <line x1="14" y1="0" x2="36" y2="0" stroke="#5a5042" stroke-width="0.5"/>
-                  <text x="0" y="4" text-anchor="middle" font-family="'Fraunces',Georgia,serif" font-size="15" font-style="italic" fill="#bfa97e" letter-spacing="1">Enko</text>
+                  <line x1="-41" y1="15" x2="-25" y2="15" stroke="#5a5042" stroke-width="0.5"/>
+                  <line x1="25" y1="15" x2="41" y2="15" stroke="#5a5042" stroke-width="0.5"/>
+                  <text x="0" y="20" text-anchor="middle" font-family="'Fraunces',Georgia,serif" font-size="15" font-style="italic" fill="#bfa97e" letter-spacing="1">Enko</text>
                   <text x="0" y="20" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" letter-spacing="4" fill="#6a5f4c">1 / 1</text>
                 </g>
                 <ellipse cx="150" cy="120" rx="70" ry="14" fill="#8a7d62" opacity="0.08" transform="rotate(-18 150 120)"/>
               </svg>
             </div>
-            <div class="emblem-caption">
-              <span>✠ Hand-composed</span>
-              <span>Nº 001 · Plate 01/01</span>
-            </div>
           </div>
 
-          <!-- hero-meta overlaps emblem bottom -->
           <div class="hero-meta">
             <div class="hero-meta-row">
               <div>
                 <div class="k">Origin</div>
-                <div class="v">Solana · 2026</div>
+                <div class="v">Solana</div>
               </div>
               <div>
                 <div class="k">Temperament</div>
@@ -290,7 +288,7 @@
           </div>
         </div>
         <div class="feature-image">
-          <div class="placeholder"><span>Enko · portrait</span></div>
+          <img src="enkoportrait.png" alt="Enko portrait" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
         </div>
       </div>
 
@@ -336,7 +334,7 @@
       </div>
       <div class="feature-grid" style="padding-bottom:48px">
         <div class="feature-image" style="grid-column:1/span 7;aspect-ratio:16/10">
-          <div class="placeholder"><span>Wardrobe · preview</span></div>
+          <img src="pfp/accs/chrome.png" alt="Wardrobe preview" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
         </div>
         <div class="feature-copy" style="grid-column:9/span 4;padding-top:0;justify-content:center">
           <p>A studio of considered objects. Each piece is a decision.</p>
