@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enko — A giraffe of certain standing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/enko.css">
+<link rel="stylesheet" href="css/atmosphere.css">
+<link rel="stylesheet" href="css/intro.css">
+<link rel="stylesheet" href="css/wardrobe.css">
+</head>
+<body>
+
+<!-- BOWTIE CURSOR (hidden until after entry) -->
+<div id="papion-cur"><img src="papion.png" alt=""></div>
+
+<!-- ══ INTRO ══ -->
+<div id="intro"><p class="intro-text" id="itxt"></p></div>
+
+<!-- ══ ENTRY GATE ══ -->
+<div id="entry">
+  <canvas id="entry-canvas"></canvas>
+  <div class="gate-hint" id="gate-hint">[ hover neck &amp; click to enter ]</div>
+</div>
+
+<!-- ══ MAIN (shown after entry) ══ -->
+<div id="main">
+
+  <!-- ═══════════════════════════════════
+       PAGE 1: LANDING
+  ═══════════════════════════════════ -->
+  <div id="page-main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a href="#" class="mark">Enko<sup>◊</sup></a>
+        <nav class="nav">
+          <a href="#section-character" class="active">Overview</a>
+          <a href="#" id="nav-pfp-link">Wardrobe</a>
+          <a href="#section-acquire">Acquire</a>
+        </nav>
+        <div class="topbar-cta">
+          <span class="pill"><span class="dot"></span>SOL · LIVE</span>
+          <button class="btn" id="theme-btn" style="padding:10px 16px;font-size:11px">Light</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+
+      <!-- HERO -->
+      <section class="hero-grid">
+        <div class="hero-ambient"></div>
+
+        <!-- LEFT -->
+        <div class="hero-left">
+          <div>
+            <div class="hero-labels">
+              <span class="tag">Chapter I</span>
+              <span class="sep">—</span>
+              <span>The Character</span>
+              <span class="sep">·</span>
+              <span>Est. MMXXVI</span>
+            </div>
+            <h1 class="hero-title">
+              A giraffe<br>
+              of <span class="it">certain</span><br>
+              standing.
+              <span class="sm">A quiet asset on Solana. Unhurried. Long-necked. Patient by design.</span>
+            </h1>
+          </div>
+          <div class="hero-cta-row">
+            <a href="https://pump.fun/enkoSOL" target="_blank" class="btn">Acquire $ENKO <span class="arrow">→</span></a>
+            <button class="btn ghost" id="card-wardrobe-btn">Visit wardrobe</button>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="hero-right">
+          <div class="emblem-stack">
+            <div class="emblem-float">
+              <!-- GiraffeEmblem SVG (inline from emblem.jsx) -->
+              <svg viewBox="0 0 400 440" class="emblem-svg" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <linearGradient id="metalBase" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#2a2620"/>
+                    <stop offset="30%" stop-color="#1a1712"/>
+                    <stop offset="70%" stop-color="#100d0a"/>
+                    <stop offset="100%" stop-color="#1f1b15"/>
+                  </linearGradient>
+                  <linearGradient id="metalBevel" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#5a5346" stop-opacity="0.9"/>
+                    <stop offset="45%" stop-color="#2a2620" stop-opacity="0"/>
+                    <stop offset="55%" stop-color="#0a0806" stop-opacity="0"/>
+                    <stop offset="100%" stop-color="#3a342a" stop-opacity="0.7"/>
+                  </linearGradient>
+                  <radialGradient id="faceGrad" cx="50%" cy="38%" r="70%">
+                    <stop offset="0%" stop-color="#2e2921" stop-opacity="1"/>
+                    <stop offset="60%" stop-color="#141109" stop-opacity="1"/>
+                    <stop offset="100%" stop-color="#0a0806" stop-opacity="1"/>
+                  </radialGradient>
+                  <radialGradient id="specular" cx="35%" cy="25%" r="45%">
+                    <stop offset="0%" stop-color="#8a7d62" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#8a7d62" stop-opacity="0"/>
+                  </radialGradient>
+                  <linearGradient id="embossSheen" x1="0" y1="0" x2="0.4" y2="1">
+                    <stop offset="0%" stop-color="#a89572" stop-opacity="0.85"/>
+                    <stop offset="50%" stop-color="#5a4d36" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#1a1612" stop-opacity="0.8"/>
+                  </linearGradient>
+                  <linearGradient id="embossShadow" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#000" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#000" stop-opacity="0.1"/>
+                  </linearGradient>
+                  <filter id="emboss" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="1"/>
+                    <feOffset dx="0.5" dy="1" result="offset"/>
+                    <feComponentTransfer><feFuncA type="linear" slope="0.8"/></feComponentTransfer>
+                    <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                  </filter>
+                  <clipPath id="faceClip">
+                    <circle cx="200" cy="220" r="144"/>
+                  </clipPath>
+                </defs>
+                <circle cx="200" cy="220" r="215" fill="none" stroke="#2a241c" stroke-width="0.5" opacity="0.4"/>
+                <circle cx="200" cy="220" r="196" fill="url(#metalBase)"/>
+                <circle cx="200" cy="220" r="196" fill="url(#metalBevel)" opacity="0.7"/>
+                <circle cx="200" cy="220" r="196" fill="none" stroke="#3a342a" stroke-width="1"/>
+                <circle cx="200" cy="220" r="190" fill="none" stroke="#08060a" stroke-width="1"/>
+                <circle cx="200" cy="220" r="186" fill="none" stroke="#5a5042" stroke-width="0.4" stroke-dasharray="1 3" opacity="0.7"/>
+                <g opacity="0.7">
+                  <path id="arcTop" d="M 72 220 A 128 128 0 0 1 328 220" fill="none"/>
+                  <text font-family="'JetBrains Mono',monospace" font-size="9" letter-spacing="5" fill="#8a7d62">
+                    <textPath href="#arcTop" startOffset="4%">ENKO · EST · MMXXVI · A GIRAFFE OF CERTAIN STANDING ·</textPath>
+                  </text>
+                  <path id="arcBot" d="M 72 220 A 128 128 0 0 0 328 220" fill="none"/>
+                  <text font-family="'JetBrains Mono',monospace" font-size="8" letter-spacing="6" fill="#6a5f4c">
+                    <textPath href="#arcBot" startOffset="15%">SOLANA · MAINNET · NÂº 001</textPath>
+                  </text>
+                </g>
+                <g fill="#5a4d36" id="pip-group"></g>
+                <circle cx="200" cy="220" r="148" fill="url(#faceGrad)"/>
+                <circle cx="200" cy="220" r="148" fill="none" stroke="#3a342a" stroke-width="1.5" opacity="0.8"/>
+                <circle cx="200" cy="220" r="146" fill="none" stroke="#04030a" stroke-width="1"/>
+                <circle cx="200" cy="220" r="142" fill="none" stroke="#5a5042" stroke-width="0.3" stroke-dasharray="0.5 2.5" opacity="0.5"/>
+                <circle cx="200" cy="220" r="148" fill="url(#specular)"/>
+                <!-- girafa.png clipped to inner medallion circle -->
+                <image href="girafa.png" x="56" y="76" width="288" height="288" clip-path="url(#faceClip)" preserveAspectRatio="xMidYMid meet"/>
+                <g transform="translate(200 370)">
+                  <line x1="-36" y1="0" x2="-14" y2="0" stroke="#5a5042" stroke-width="0.5"/>
+                  <line x1="14" y1="0" x2="36" y2="0" stroke="#5a5042" stroke-width="0.5"/>
+                  <text x="0" y="4" text-anchor="middle" font-family="'Fraunces',Georgia,serif" font-size="15" font-style="italic" fill="#bfa97e" letter-spacing="1">Enko</text>
+                  <text x="0" y="20" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" letter-spacing="4" fill="#6a5f4c">1 / 1</text>
+                </g>
+                <ellipse cx="150" cy="120" rx="70" ry="14" fill="#8a7d62" opacity="0.08" transform="rotate(-18 150 120)"/>
+              </svg>
+            </div>
+            <div class="emblem-caption">
+              <span>✠ Hand-composed</span>
+              <span>Nº 001 · Plate 01/01</span>
+            </div>
+          </div>
+
+          <!-- hero-meta overlaps emblem bottom -->
+          <div class="hero-meta">
+            <div class="hero-meta-row">
+              <div>
+                <div class="k">Origin</div>
+                <div class="v">Solana · 2026</div>
+              </div>
+              <div>
+                <div class="k">Temperament</div>
+                <div class="v">Reserved</div>
+              </div>
+            </div>
+            <div class="hero-meta-row">
+              <div>
+                <div class="k">Ticker</div>
+                <div class="v">$ENKO</div>
+              </div>
+              <div>
+                <div class="k">Supply</div>
+                <div class="v">1,000,000,000</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- BRAND STRIP -->
+      <div class="brand-strip">
+        <span>Rarity</span><span class="dot"></span>
+        <span>Patience</span><span class="dot"></span>
+        <span>Quiet strength</span><span class="dot"></span>
+        <span>Long horizon</span><span class="dot"></span>
+        <span>Reserve</span><span class="dot"></span>
+        <span>Status</span>
+      </div>
+
+      <!-- STATS STRIP -->
+      <div class="stats-strip" style="margin-top:24px">
+        <div class="stat-cell">
+          <div class="l">
+            <span>Price</span>
+            <svg class="spark spark-pos" viewBox="0 0 52 16"><path class="area" d="M0,12 L4.7,10 L9.5,11 L14.2,8 L19,9 L23.7,6 L28.5,5 L33.2,7 L38,3 L42.7,2 L47.5,4 L52,1 L52,16 L0,16 Z"/><path d="M0,12 L4.7,10 L9.5,11 L14.2,8 L19,9 L23.7,6 L28.5,5 L33.2,7 L38,3 L42.7,2 L47.5,4 L52,1"/></svg>
+          </div>
+          <div class="v num" id="ch-price">—</div>
+          <div class="sub"><span>USD · LIVE</span><span style="color:var(--pos)">▲</span></div>
+        </div>
+        <div class="stat-cell">
+          <div class="l">
+            <span>24h Change</span>
+            <svg class="spark spark-pos" viewBox="0 0 52 16"><path class="area" d="M0,13 L4.7,11 L9.5,12 L14.2,9 L19,10 L23.7,7 L28.5,5 L33.2,6 L38,4 L42.7,2 L47.5,3 L52,1 L52,16 L0,16 Z"/><path d="M0,13 L4.7,11 L9.5,12 L14.2,9 L19,10 L23.7,7 L28.5,5 L33.2,6 L38,4 L42.7,2 L47.5,3 L52,1"/></svg>
+          </div>
+          <div class="v num" id="ch-change">—</div>
+          <div class="sub"><span>vs yesterday</span><span id="ch-change-arrow" style="color:var(--pos)">▲</span></div>
+        </div>
+        <div class="stat-cell">
+          <div class="l">
+            <span>Volume · 24h</span>
+            <svg class="spark spark-neutral" viewBox="0 0 52 16"><path class="area" d="M0,12 L4.7,10 L9.5,11 L14.2,9 L19,10 L23.7,8 L28.5,6 L33.2,8 L38,5 L42.7,7 L47.5,5 L52,3 L52,16 L0,16 Z"/><path d="M0,12 L4.7,10 L9.5,11 L14.2,9 L19,10 L23.7,8 L28.5,6 L33.2,8 L38,5 L42.7,7 L47.5,5 L52,3"/></svg>
+          </div>
+          <div class="v num" id="ch-vol">—</div>
+          <div class="sub"><span>on-chain</span><span style="color:var(--ink-mute)">○</span></div>
+        </div>
+        <div class="stat-cell">
+          <div class="l">
+            <span>Market cap</span>
+            <svg class="spark spark-pos" viewBox="0 0 52 16"><path class="area" d="M0,11 L4.7,9 L9.5,10 L14.2,8 L19,9 L23.7,6 L28.5,5 L33.2,4 L38,3 L42.7,2 L47.5,2 L52,1 L52,16 L0,16 Z"/><path d="M0,11 L4.7,9 L9.5,10 L14.2,8 L19,9 L23.7,6 L28.5,5 L33.2,4 L38,3 L42.7,2 L47.5,2 L52,1"/></svg>
+          </div>
+          <div class="v num" id="ch-mcap">—</div>
+          <div class="sub"><span>FDV · pooled</span><span style="color:var(--pos)">▲</span></div>
+        </div>
+        <div class="stat-cell">
+          <div class="l">
+            <span>Liquidity</span>
+            <svg class="spark spark-neutral" viewBox="0 0 52 16"><path class="area" d="M0,10 L4.7,12 L9.5,9 L14.2,11 L19,8 L23.7,10 L28.5,7 L33.2,9 L38,6 L42.7,8 L47.5,6 L52,5 L52,16 L0,16 Z"/><path d="M0,10 L4.7,12 L9.5,9 L14.2,11 L19,8 L23.7,10 L28.5,7 L33.2,9 L38,6 L42.7,8 L47.5,6 L52,5"/></svg>
+          </div>
+          <div class="v num" id="ch-liq">—</div>
+          <div class="sub"><span>pool reserve</span><span style="color:var(--ink-mute)">○</span></div>
+        </div>
+      </div>
+
+      <!-- CHART -->
+      <div style="margin-top:32px">
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-header-left">
+              <div class="eyebrow">Price · SOL market</div>
+              <div class="chart-price num" id="chart-price-display">—</div>
+              <div class="chart-change num pos" id="chart-change-display">—</div>
+            </div>
+            <div class="chart-header-right">
+              <div class="chart-tf">
+                <button class="ch-tf-btn active" data-tf="1m">1m</button>
+                <button class="ch-tf-btn" data-tf="5m">5m</button>
+              </div>
+            </div>
+          </div>
+          <div class="ch-loading" id="ch-loading" style="font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mute);padding:.6rem 1.4rem;display:none">Loading candles…</div>
+          <div style="position:relative;padding:.6rem">
+            <canvas id="enko-chart" style="display:block;width:100%"></canvas>
+            <div id="ch-tooltip" style="position:absolute;pointer-events:none;display:none;background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:11px;padding:8px 10px;white-space:pre;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,.18)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider"><span>✠ · I</span></div>
+
+      <!-- SECTION I — THE CHARACTER -->
+      <div class="section-head" id="section-character">
+        <div class="num-tag">§ I — The Character</div>
+        <h2>Composure, in a <span class="it">long</span> neck.</h2>
+        <div class="side">Height 4.8 m · Pattern reticulated · Disposition unhurried</div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-copy">
+          <p>Enko was not designed to react. He was designed to observe — from a height other market participants cannot reach, and on a timescale they rarely consider.</p>
+          <p>Where others chase the ground, Enko eats from the canopy. Where others dart, Enko arrives.</p>
+          <div class="feature-caption">
+            <div class="cell"><div class="k">Height</div><div class="v">4.8 metres</div></div>
+            <div class="cell"><div class="k">Pattern</div><div class="v">26 plates</div></div>
+            <div class="cell"><div class="k">Disposition</div><div class="v">Unhurried</div></div>
+            <div class="cell"><div class="k">Habitat</div><div class="v">SOL savanna</div></div>
+          </div>
+        </div>
+        <div class="feature-image">
+          <div class="placeholder"><span>Enko · portrait</span></div>
+        </div>
+      </div>
+
+      <div class="section-divider"><span>✠ · II</span></div>
+
+      <!-- SECTION II — THE LEDGER -->
+      <div class="section-head" id="section-ledger">
+        <div class="num-tag">§ II — The Ledger</div>
+        <h2>Recent <span class="it">movement.</span></h2>
+        <div class="side">Live · refreshed every block</div>
+      </div>
+      <div style="padding-bottom:32px">
+        <table class="txn-table">
+          <thead>
+            <tr>
+              <th style="width:18%">Time</th>
+              <th>Type</th>
+              <th>Amount $ENKO</th>
+              <th>Price</th>
+              <th>Value</th>
+              <th>Wallet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="color:var(--ink-mute)">18:42</td><td class="pos">BUY</td><td>482,130</td><td>$0.008346</td><td>$4,024.26</td><td style="color:var(--ink-soft)">7xQk…p3Lm</td></tr>
+            <tr><td style="color:var(--ink-mute)">18:39</td><td class="pos">BUY</td><td>128,000</td><td>$0.008318</td><td>$1,064.70</td><td style="color:var(--ink-soft)">H9vE…qW41</td></tr>
+            <tr><td style="color:var(--ink-mute)">18:36</td><td class="neg">SELL</td><td>1,204,502</td><td>$0.008290</td><td>$9,985.33</td><td style="color:var(--ink-soft)">Ab2X…tRn8</td></tr>
+            <tr><td style="color:var(--ink-mute)">18:32</td><td class="pos">BUY</td><td>68,900</td><td>$0.008275</td><td>$570.14</td><td style="color:var(--ink-soft)">Np7k…vBx2</td></tr>
+            <tr><td style="color:var(--ink-mute)">18:29</td><td class="pos">BUY</td><td>2,100,000</td><td>$0.008251</td><td>$17,326.96</td><td style="color:var(--ink-soft)">cE4m…wSg7</td></tr>
+            <tr><td style="color:var(--ink-mute)">18:22</td><td class="neg">SELL</td><td>340,000</td><td>$0.008244</td><td>$2,802.96</td><td style="color:var(--ink-soft)">Lf8p…dKh3</td></tr>
+            <tr><td style="color:var(--ink-mute)">18:18</td><td class="pos">BUY</td><td>95,400</td><td>$0.008211</td><td>$783.33</td><td style="color:var(--ink-soft)">QrT5…xMz9</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-divider"><span>✠ · III</span></div>
+
+      <!-- SECTION III — THE WARDROBE CTA -->
+      <div class="section-head" id="section-acquire">
+        <div class="num-tag">§ III — The Wardrobe</div>
+        <h2>Dress him, <span class="it">carefully.</span></h2>
+        <div class="side">Backgrounds · Accessories · Bowties</div>
+      </div>
+      <div class="feature-grid" style="padding-bottom:48px">
+        <div class="feature-image" style="grid-column:1/span 7;aspect-ratio:16/10">
+          <div class="placeholder"><span>Wardrobe · preview</span></div>
+        </div>
+        <div class="feature-copy" style="grid-column:9/span 4;padding-top:0;justify-content:center">
+          <p>A studio of considered objects. Each piece is a decision.</p>
+          <div style="margin-top:20px">
+            <button class="btn" id="wardrobe-cta-btn">Enter the wardrobe <span class="arrow">→</span></button>
+          </div>
+          <div style="margin-top:32px">
+            <div class="eyebrow" style="margin-bottom:8px">Contract Address</div>
+            <div style="font-family:var(--f-mono);font-size:11px;color:var(--ink-mute)">coming soon · pump.fun/enkoSOL</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-head">
+              <span class="it">Enko</span>,<br>at leisure.
+            </div>
+          </div>
+          <div class="footer-col">
+            <div class="h">Token</div>
+            <a href="#">Chart</a>
+            <a href="#">Holders</a>
+            <a href="#">Contract</a>
+          </div>
+          <div class="footer-col">
+            <div class="h">Studio</div>
+            <a href="#" id="footer-wardrobe-link">Wardrobe</a>
+            <a href="#">Portraits</a>
+            <a href="#">Downloads</a>
+          </div>
+          <div class="footer-col">
+            <div class="h">Elsewhere</div>
+            <a href="https://x.com/enko" target="_blank">Twitter / X</a>
+            <a href="https://discord.gg/enko" target="_blank">Discord</a>
+            <a href="https://pump.fun/enkoSOL" target="_blank">Pump.fun</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>Enko · MMXXVI</span>
+          <div>
+            <span>Not financial advice</span>
+            <span>SOL · Mainnet</span>
+            <span>v 2.0</span>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+  </div><!-- /page-main -->
+
+  <!-- ═══════════════════════════════════
+       PAGE 2: WARDROBE
+  ═══════════════════════════════════ -->
+  <div id="page-pfp">
+
+    <!-- sticky back nav -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button class="wd-back" id="back-btn">← Overview</button>
+        <a href="#" class="mark">Enko<sup>◊</sup></a>
+        <div class="topbar-cta">
+          <span class="pill"><span class="dot"></span>The Wardrobe</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell wardrobe-page">
+
+      <!-- wardrobe head -->
+      <div class="wardrobe-head">
+        <div>
+          <div class="eyebrow">§ II — The Wardrobe</div>
+          <h1 class="wardrobe-title">The <span class="it">Portrait</span><br>Studio.</h1>
+        </div>
+        <div class="wardrobe-head-right">
+          <p>Select an accessory. Set a background. Save your portrait and use it wherever a face is asked of you.</p>
+          <div style="display:flex;gap:12px;margin-top:20px">
+            <button class="btn" id="dlbtn" disabled>Save portrait <span class="arrow">↓</span></button>
+            <button class="btn ghost" id="rstbtn">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-col wardrobe grid -->
+      <div class="wardrobe-grid">
+
+        <!-- LEFT: controls -->
+        <aside class="wardrobe-controls">
+          <div class="tab-row">
+            <button class="tab active" data-cat="characters">Characters</button>
+            <button class="tab" data-cat="backgrounds">Backgrounds</button>
+            <button class="tab" data-cat="accessories">Accessories</button>
+          </div>
+          <div class="panel">
+            <div class="slot-group">
+              <div class="slot-head">
+                <span class="eyebrow" id="slot-label">Characters</span>
+                <button class="clear-slot" id="slot-clear" style="display:none" onclick="clearCurrentSlot()">clear</button>
+              </div>
+              <div class="swatch-grid" id="wd-grid"></div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- CENTER: portrait -->
+        <section class="wardrobe-portrait">
+          <div class="portrait-frame">
+            <div class="port-ph" id="ph"><span>Select an item to begin</span></div>
+            <canvas id="ppc" width="1000" height="1000"></canvas>
+          </div>
+          <div class="portrait-meta">
+            <div class="cell"><div class="k">Scene</div><div class="v" id="pm-bg">—</div></div>
+            <div class="cell"><div class="k">Character</div><div class="v" id="pm-char">—</div></div>
+            <div class="cell"><div class="k">Accessory</div><div class="v" id="pm-bow">—</div></div>
+            <div class="cell"><div class="k">Hint</div><div class="v drag-hint" id="drag-hint" style="opacity:0;font-style:italic;font-size:11px">drag to reposition</div></div>
+          </div>
+        </section>
+
+        <!-- RIGHT: manifest + export -->
+        <aside class="wardrobe-summary">
+          <div class="eyebrow">Manifest</div>
+          <h3 class="summary-title">A portrait,<br><span class="it">assembled.</span></h3>
+          <div class="summary-list">
+            <div class="summary-row"><span class="k">Scene</span><span class="v" id="sel-bg">—</span></div>
+            <div class="summary-row"><span class="k">Character</span><span class="v" id="sel-char">—</span></div>
+            <div class="summary-row"><span class="k">Accessory</span><span class="v" id="sel-bow">—</span></div>
+          </div>
+          <div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--rule-soft)">
+            <div class="eyebrow" style="margin-bottom:10px">Export</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button class="btn" onclick="document.getElementById('dlbtn').click()" style="justify-content:space-between;width:100%">Download PNG <span class="arrow">↓</span></button>
+              <button class="btn ghost" onclick="document.getElementById('rstbtn').click()" style="justify-content:space-between;width:100%">Reset <span>×</span></button>
+            </div>
+          </div>
+        </aside>
+
+      </div><!-- /wardrobe-grid -->
+
+      <footer class="footer">
+        <div class="footer-bottom">
+          <span>Enko · MMXXVI</span>
+          <div>
+            <span>Not financial advice</span>
+            <span>SOL · Mainnet</span>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+  </div><!-- /page-pfp -->
+
+</div><!-- /main -->
+
+<script>
+/* embed pip generation for SVG emblem */
+(function() {
+  const g = document.getElementById('pip-group');
+  if (!g) return;
+  for (let i = 0; i < 24; i++) {
+    const a = (i / 24) * Math.PI * 2 - Math.PI / 2;
+    const r = 178;
+    const cx = 200 + Math.cos(a) * r;
+    const cy = 220 + Math.sin(a) * r;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r', '0.8');
+    circle.setAttribute('opacity', '0.5');
+    g.appendChild(circle);
+  }
+})();
+</script>
+
+<script src="js/app.js"></script>
+<script src="js/entry.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/wardrobe.js"></script>
+</body>
+</html>

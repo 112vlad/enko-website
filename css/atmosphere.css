@@ -1,0 +1,259 @@
+/* ============================================================
+   ENKO — atmosphere: grain, glow, grid, motion (adapted for #page-main)
+   ============================================================ */
+
+/* subtle film grain — applied to main page */
+#page-main::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.8 0'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+}
+
+[data-theme="dark"] #page-main::before { opacity: 0.08; }
+
+/* faint 12-column grid */
+#page-main::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--ink) 3.5%, transparent) 1px, transparent 1px);
+  background-size: calc(100% / 12) 100%;
+  opacity: 0.6;
+  mask-image: radial-gradient(ellipse 90% 60% at 50% 20%, #000 40%, transparent 95%);
+}
+
+.shell, .topbar { position: relative; z-index: 2; }
+
+/* ambient glow behind hero */
+.hero-ambient {
+  position: absolute;
+  inset: -20% -10% auto auto;
+  width: 60%;
+  height: 600px;
+  background:
+    radial-gradient(ellipse 50% 40% at 70% 40%, color-mix(in oklab, var(--accent) 22%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 35% at 85% 60%, color-mix(in oklab, var(--ink) 18%, transparent) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+[data-theme="light"] .hero-ambient { opacity: 0.5; }
+
+/* hero layout adjustments */
+.hero-grid {
+  position: relative;
+  grid-template-columns: 1.15fr 0.85fr !important;
+  gap: 56px !important;
+  padding: 64px 0 56px !important;
+  align-items: stretch !important;
+  min-height: 560px;
+}
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+  position: relative;
+  z-index: 2;
+}
+.hero-right {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.emblem-stack {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 420px;
+  margin: 0 auto -64px; /* pulls hero-meta up to overlap emblem bottom */
+  z-index: 2;
+}
+.emblem-stack .emblem-float {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: emblemFloat 8s ease-in-out infinite;
+}
+.emblem-stack .emblem-caption {
+  position: absolute;
+  left: 14px; right: 14px;
+  bottom: 70px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  pointer-events: none;
+}
+
+.hero-labels {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 4px;
+}
+.hero-labels .tag {
+  padding: 4px 8px;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+}
+.hero-labels .sep { color: var(--rule); }
+
+
+/* hero-meta overlaps emblem bottom */
+.hero-meta {
+  padding: 72px 22px 20px !important; /* top padding absorbs the emblem overlap */
+  background: color-mix(in oklab, var(--bg-sunk) 60%, var(--bg));
+  border: 1px solid var(--rule);
+  gap: 16px !important;
+  position: relative;
+  z-index: 1;
+}
+.hero-meta-row:first-child { padding-top: 0 !important; border-top: none !important; }
+
+/* GIRAFFE EMBLEM */
+.emblem-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 3/4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.emblem-float {
+  position: absolute;
+  inset: 0;
+  animation: emblemFloat 8s ease-in-out infinite;
+}
+@keyframes emblemFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-0.4deg); }
+}
+.emblem-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 30px 80px color-mix(in oklab, var(--accent) 30%, transparent));
+}
+
+/* animated counter look */
+.counter {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+/* stat cards — polished */
+.stats-strip {
+  background: color-mix(in oklab, var(--bg-sunk) 40%, var(--bg)) !important;
+  border: 1px solid var(--rule);
+  position: relative;
+}
+.stat-cell {
+  padding: 22px 22px 18px !important;
+  position: relative;
+  overflow: hidden;
+  transition: background .25s;
+}
+.stat-cell:hover { background: color-mix(in oklab, var(--accent) 6%, transparent); }
+.stat-cell .l {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.stat-cell .v {
+  font-size: 22px !important;
+  line-height: 1.1;
+  margin-top: 4px;
+}
+.stat-cell .sub {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 8px !important;
+}
+.spark {
+  width: 52px; height: 16px;
+  opacity: 0.85;
+}
+.spark path { fill: none; stroke: currentColor; stroke-width: 1.25; }
+.spark .area { fill: currentColor; opacity: 0.15; stroke: none; }
+.spark-pos { color: var(--pos); }
+.spark-neg { color: var(--neg); }
+.spark-neutral { color: var(--ink-soft); }
+
+/* section rhythm */
+.section-divider {
+  height: 96px;
+  position: relative;
+  margin: 8px 0;
+}
+.section-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--rule) 30%, var(--rule) 70%, transparent);
+}
+.section-divider span {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  padding: 4px 10px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--ink-mute);
+}
+
+/* button micro */
+.btn { transition: transform .18s, box-shadow .2s, background .2s; }
+.btn:hover {
+  box-shadow: 0 8px 24px -12px color-mix(in oklab, var(--accent) 60%, transparent);
+}
+
+/* wardrobe CTA block */
+.wardrobe-cta-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* brand motif */
+.brand-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--rule-soft);
+  border-bottom: 1px solid var(--rule-soft);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin: 48px 0 0;
+  overflow: hidden;
+}
+.brand-strip span { flex-shrink: 0; }
+.brand-strip .dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block; margin: 0 4px 2px; vertical-align: middle;
+}

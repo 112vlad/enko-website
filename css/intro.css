@@ -1,0 +1,84 @@
+/* ============================================================
+   ENKO — intro, entry gate, cursor, page system
+   ============================================================ */
+
+/* ── BOWTIE CURSOR ── */
+#papion-cur {
+  display: none; /* hidden until entry completes */
+  position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+}
+#papion-cur img {
+  width: 110px; display: block;
+  filter: drop-shadow(0 2px 8px rgba(255,180,0,.55));
+  image-rendering: pixelated;
+}
+
+/* ── INTRO ── */
+#intro {
+  position: fixed; inset: 0; background: #000;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 7000;
+}
+.intro-text {
+  font-size: .9rem; letter-spacing: 2px;
+  color: #00d4aa; text-shadow: 0 0 14px #00d4aa;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+.blink {
+  display: inline-block; width: 8px; height: .9em;
+  background: #00d4aa; margin-left: 2px; vertical-align: text-bottom;
+  animation: blink .9s step-end infinite;
+}
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* ── ENTRY ── */
+#entry {
+  position: fixed; inset: 0; background: #000;
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 6000; opacity: 0; transition: opacity .7s; gap: 1.8rem;
+}
+#entry.on { display: flex; }
+#entry.vis { opacity: 1; }
+#entry-canvas {
+  display: block;
+  max-width: min(480px, 88vw);
+  max-height: 72vh;
+  cursor: crosshair;
+}
+.gate-hint {
+  font-size: .65rem; letter-spacing: 3px; white-space: nowrap;
+  color: rgba(184,216,176,.45);
+  animation: dimfade 2s ease-in-out infinite;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+.gate-hint.ready {
+  color: #ffb800;
+  animation: dimfade .55s ease-in-out infinite;
+}
+@keyframes dimfade { 0%,100% { opacity: .2; } 50% { opacity: .7; } }
+
+/* ── MAIN WRAPPER ── */
+#main { display: none; opacity: 0; transition: opacity .6s; }
+#main.vis { opacity: 1; }
+
+/* ── PAGE SYSTEM ── */
+#page-main, #page-pfp {
+  position: fixed; inset: 0;
+  overflow-y: auto; scroll-behavior: smooth;
+  transition: transform .55s cubic-bezier(.77,0,.175,1), opacity .5s;
+  background: var(--bg);
+  color: var(--ink);
+  z-index: 2;
+}
+#page-pfp {
+  transform: translateX(100%); opacity: 0;
+  pointer-events: none; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+#page-pfp.pg-on { transform: none; opacity: 1; pointer-events: auto; }
+#page-main.pg-off { transform: translateX(-22%); opacity: 0; pointer-events: none; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--rule); }
