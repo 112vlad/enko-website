@@ -260,7 +260,10 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-mute);
+  background: none;
+  border: none;
   border-right: 1px solid var(--rule);
+  cursor: pointer;
   transition: all .15s;
 }
 .chart-mode button:last-child, .chart-tf button:last-child { border-right: none; }

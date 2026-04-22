@@ -262,7 +262,7 @@
           </div>
           <div class="ch-loading" id="ch-loading" style="font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mute);padding:.6rem 1.4rem;display:none">Loading candles…</div>
           <div style="position:relative;padding:.6rem">
-            <canvas id="enko-chart" style="display:block;width:100%"></canvas>
+            <canvas id="enko-chart" style="display:block;width:100%;cursor:crosshair"></canvas>
             <div id="ch-tooltip" style="position:absolute;pointer-events:none;display:none;background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:11px;padding:8px 10px;white-space:pre;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,.18)"></div>
           </div>
         </div>
@@ -270,9 +270,35 @@
 
       <div class="section-divider"><span>✠ · I</span></div>
 
-      <!-- SECTION I — THE CHARACTER -->
+      <!-- SECTION I — THE LEDGER -->
+      <div class="section-head" id="section-ledger">
+        <div class="num-tag">§ I — The Ledger</div>
+        <h2>Recent <span class="it">movement.</span></h2>
+        <div class="side">Live · refreshed every block</div>
+      </div>
+      <div style="padding-bottom:32px">
+        <table class="txn-table">
+          <thead>
+            <tr>
+              <th style="width:18%">Time</th>
+              <th>Type</th>
+              <th>Amount $ENKO</th>
+              <th>Price</th>
+              <th>Value</th>
+              <th>Wallet</th>
+            </tr>
+          </thead>
+          <tbody id="tx-body">
+            <tr><td colspan="6" style="color:var(--ink-mute);text-align:center;padding:24px">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-divider"><span>✠ · II</span></div>
+
+      <!-- SECTION II — THE CHARACTER -->
       <div class="section-head" id="section-character">
-        <div class="num-tag">§ I — The Character</div>
+        <div class="num-tag">§ II — The Character</div>
         <h2>Composure, in a <span class="it">long</span> neck.</h2>
         <div class="side">Height 4.8 m · Pattern reticulated · Disposition unhurried</div>
       </div>
@@ -290,38 +316,6 @@
         <div class="feature-image">
           <img src="enkoportrait.png" alt="Enko portrait" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
         </div>
-      </div>
-
-      <div class="section-divider"><span>✠ · II</span></div>
-
-      <!-- SECTION II — THE LEDGER -->
-      <div class="section-head" id="section-ledger">
-        <div class="num-tag">§ II — The Ledger</div>
-        <h2>Recent <span class="it">movement.</span></h2>
-        <div class="side">Live · refreshed every block</div>
-      </div>
-      <div style="padding-bottom:32px">
-        <table class="txn-table">
-          <thead>
-            <tr>
-              <th style="width:18%">Time</th>
-              <th>Type</th>
-              <th>Amount $ENKO</th>
-              <th>Price</th>
-              <th>Value</th>
-              <th>Wallet</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td style="color:var(--ink-mute)">18:42</td><td class="pos">BUY</td><td>482,130</td><td>$0.008346</td><td>$4,024.26</td><td style="color:var(--ink-soft)">7xQk…p3Lm</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:39</td><td class="pos">BUY</td><td>128,000</td><td>$0.008318</td><td>$1,064.70</td><td style="color:var(--ink-soft)">H9vE…qW41</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:36</td><td class="neg">SELL</td><td>1,204,502</td><td>$0.008290</td><td>$9,985.33</td><td style="color:var(--ink-soft)">Ab2X…tRn8</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:32</td><td class="pos">BUY</td><td>68,900</td><td>$0.008275</td><td>$570.14</td><td style="color:var(--ink-soft)">Np7k…vBx2</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:29</td><td class="pos">BUY</td><td>2,100,000</td><td>$0.008251</td><td>$17,326.96</td><td style="color:var(--ink-soft)">cE4m…wSg7</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:22</td><td class="neg">SELL</td><td>340,000</td><td>$0.008244</td><td>$2,802.96</td><td style="color:var(--ink-soft)">Lf8p…dKh3</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:18</td><td class="pos">BUY</td><td>95,400</td><td>$0.008211</td><td>$783.33</td><td style="color:var(--ink-soft)">QrT5…xMz9</td></tr>
-          </tbody>
-        </table>
       </div>
 
       <div class="section-divider"><span>✠ · III</span></div>
