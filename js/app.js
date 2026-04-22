@@ -8,7 +8,7 @@ document.addEventListener('mousemove', e => {
   papionCur.style.left = _pcx + 'px';
   papionCur.style.top = _pcy + 'px';
   if (_bowtieLive && Math.random() > 0.5) {
-    const col = _pcTargetScale > 1 ? [191, 169, 126] : [168, 184, 120];
+    const col = _pcTargetScale > 1 ? [168, 184, 120] : [184, 173, 152];
     _particles.push({
       x: _pcx + (Math.random() - 0.5) * 10,
       y: _pcy + (Math.random() - 0.5) * 10,
