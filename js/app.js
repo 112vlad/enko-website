@@ -115,6 +115,13 @@ document.getElementById('nav-pfp-link').addEventListener('click', e => { e.preve
 document.getElementById('card-wardrobe-btn').addEventListener('click', goToPfp);
 document.getElementById('back-btn').addEventListener('click', goToMain);
 
+document.querySelectorAll('.mark').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    goToMain();
+  });
+});
+
 /* ── EXTRA NAV WIRING ── */
 document.getElementById('wardrobe-cta-btn')?.addEventListener('click', goToPfp);
 document.getElementById('footer-wardrobe-link')?.addEventListener('click', e => { e.preventDefault(); goToPfp(); });
