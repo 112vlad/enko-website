@@ -5,6 +5,7 @@
 const BG_LIST = [
   { src: 'pfp/backgrounds/background1.jpg', name: 'SAVANNA' },
   { src: 'pfp/backgrounds/background2.jpg', name: 'HORIZON' },
+  { src: 'pfp/backgrounds/cathedral.png',   name: 'CATHEDRAL' },
 ];
 const ACCS_LIST = [
   { src: 'pfp/accs/bloods.png',     name: 'BLOODS' },
