@@ -99,21 +99,31 @@ function loadImg(src) {
 
 /* ── PAGE NAVIGATION ── */
 function goToPfp() {
+  document.getElementById('page-community').classList.remove('pg-on');
   document.getElementById('page-main').classList.add('pg-off');
   const pfp = document.getElementById('page-pfp');
   pfp.classList.add('pg-on');
   pfp.scrollTop = 0;
-  /* trigger lakers default on first open (defined in wardrobe.js) */
   if (typeof initWardrobeDefaults === 'function') initWardrobeDefaults();
+}
+function goToCommunity() {
+  document.getElementById('page-pfp').classList.remove('pg-on');
+  document.getElementById('page-main').classList.add('pg-off');
+  const com = document.getElementById('page-community');
+  com.classList.add('pg-on');
+  com.scrollTop = 0;
 }
 function goToMain() {
   document.getElementById('page-main').classList.remove('pg-off');
   document.getElementById('page-pfp').classList.remove('pg-on');
+  document.getElementById('page-community').classList.remove('pg-on');
 }
 
 document.getElementById('nav-pfp-link').addEventListener('click', e => { e.preventDefault(); goToPfp(); });
+document.getElementById('nav-community-link').addEventListener('click', e => { e.preventDefault(); goToCommunity(); });
 document.getElementById('card-wardrobe-btn').addEventListener('click', goToPfp);
 document.getElementById('back-btn').addEventListener('click', goToMain);
+document.getElementById('community-back-btn').addEventListener('click', goToMain);
 
 document.querySelectorAll('.mark').forEach(link => {
   link.addEventListener('click', e => {
@@ -125,6 +135,7 @@ document.querySelectorAll('.mark').forEach(link => {
 /* ── EXTRA NAV WIRING ── */
 document.getElementById('wardrobe-cta-btn')?.addEventListener('click', goToPfp);
 document.getElementById('footer-wardrobe-link')?.addEventListener('click', e => { e.preventDefault(); goToPfp(); });
+document.getElementById('community-cta-btn')?.addEventListener('click', goToCommunity);
 
 /* ── THEME TOGGLE ── */
 document.documentElement.setAttribute('data-theme', 'dark');
