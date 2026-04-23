@@ -6,6 +6,23 @@ const BG_LIST = [
   { src: 'pfp/backgrounds/background1.jpg', name: 'SAVANNA' },
   { src: 'pfp/backgrounds/background2.jpg', name: 'HORIZON' },
   { src: 'pfp/backgrounds/cathedral.png',   name: 'CATHEDRAL' },
+  { src: 'pfp/backgrounds/cn tower.jpg',           name: 'CN TOWER', posX: -395 },
+  { src: 'pfp/backgrounds/colosseum.jpg',          name: 'COLOSSEUM', posX: -41 },
+  { src: 'pfp/backgrounds/eiffel tower.jpg',       name: 'EIFFEL', zoom: 1.02, posX: 53 },
+  { src: 'pfp/backgrounds/mario.jpg',              name: 'MARIO', posX: 63 },
+  { src: 'pfp/backgrounds/mugshot.jpg',            name: 'MUGSHOT' },
+  { src: 'pfp/backgrounds/nether.png',             name: 'NETHER', posX: -11 },
+  { src: 'pfp/backgrounds/nuketown.jpg',           name: 'NUKETOWN', posX: 117 },
+  { src: 'pfp/backgrounds/moon.jpg',               name: 'MOON', posX: 142 },
+  { src: 'pfp/backgrounds/pleasant park.jpg',      name: 'PLEASANT PARK', posX: -93 },
+  { src: 'pfp/backgrounds/pyramids.jpg',           name: 'PYRAMIDS' },
+  { src: 'pfp/backgrounds/rialto.png',             name: 'RIALTO', posX: -185 },
+  { src: 'pfp/backgrounds/roblox.jpg',             name: 'ROBLOX' },
+  { src: 'pfp/backgrounds/satoshi nakamoto.jpg',   name: 'SATOSHI', zoom: 1.74, posX: 386 },
+  { src: 'pfp/backgrounds/statue of liberty.jpg',  name: 'LIBERTY', posX: -47 },
+  { src: 'pfp/backgrounds/times square.jpg',       name: 'TIMES SQ', posX: -74 },
+  { src: 'pfp/backgrounds/vice city.jpg',          name: 'VICE CITY', posX: -179 },
+  { src: 'pfp/backgrounds/wanted.jpg',             name: 'WANTED', zoom: 1.04 },
 ];
 const ACCS_LIST = [
   { src: 'pfp/accs/bloods.png',     name: 'BLOODS' },
@@ -45,6 +62,8 @@ const CAT_MAP = {
 let sb = null, sg = null, sbow = null;
 let btPos = { x: 500, y: 930 }, btSize = 320;
 let btSizeMultiplier = 1;
+let _bgZoom = 1.0;
+let _bgOffsetX = 0;
 let _isDrag = false, _dragOff = { x: 0, y: 0 };
 let _activeCat = 'characters';
 let _wardrobeInited = false;
@@ -101,7 +120,19 @@ function buildCategory(cat) {
     d.onclick = () => {
       grid.querySelectorAll('.swatch').forEach(t => t.classList.remove('selected'));
       d.classList.add('selected');
-      if (type === 'bg') sb = item.src;
+      if (type === 'bg') {
+        sb = item.src;
+        _bgOffsetX = item.posX || 0;
+        _bgZoom = item.zoom || 1.0;
+        const bgPosSlider = document.getElementById('bg-pos-slider');
+        const bgPosDisplay = document.getElementById('bg-pos-display');
+        if (bgPosSlider) bgPosSlider.value = _bgOffsetX;
+        if (bgPosDisplay) bgPosDisplay.textContent = _bgOffsetX === 0 ? 'center' : (_bgOffsetX > 0 ? '+' : '') + _bgOffsetX;
+        const bgZoomSlider = document.getElementById('bg-zoom-slider');
+        const bgZoomDisplay = document.getElementById('bg-zoom-display');
+        if (bgZoomSlider) bgZoomSlider.value = Math.round(_bgZoom * 100);
+        if (bgZoomDisplay) bgZoomDisplay.textContent = Math.round(_bgZoom * 100) + '%';
+      }
       else if (type === 'gf') sg = item.src;
       else { 
         sbow = item.src; 
@@ -124,9 +155,9 @@ function setCategory(cat) {
   _activeCat = cat;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
   const sizeGroup = document.getElementById('size-group');
-  if (sizeGroup) {
-    sizeGroup.style.display = cat === 'accessories' ? 'block' : 'none';
-  }
+  if (sizeGroup) sizeGroup.style.display = cat === 'accessories' ? 'block' : 'none';
+  const bgZoomGroup = document.getElementById('bg-zoom-group');
+  if (bgZoomGroup) bgZoomGroup.style.display = cat === 'backgrounds' ? 'block' : 'none';
   buildCategory(cat);
 }
 
@@ -156,6 +187,26 @@ if (bowSizeSlider) {
     btSizeMultiplier = parseFloat(e.target.value) / 100;
     const sizeDisplay = document.getElementById('size-display');
     if (sizeDisplay) sizeDisplay.textContent = e.target.value + '%';
+    render();
+  });
+}
+
+const bgZoomSlider = document.getElementById('bg-zoom-slider');
+if (bgZoomSlider) {
+  bgZoomSlider.addEventListener('input', e => {
+    _bgZoom = parseFloat(e.target.value) / 100;
+    const bgZoomDisplay = document.getElementById('bg-zoom-display');
+    if (bgZoomDisplay) bgZoomDisplay.textContent = e.target.value + '%';
+    render();
+  });
+}
+
+const bgPosSlider = document.getElementById('bg-pos-slider');
+if (bgPosSlider) {
+  bgPosSlider.addEventListener('input', e => {
+    _bgOffsetX = parseFloat(e.target.value);
+    const bgPosDisplay = document.getElementById('bg-pos-display');
+    if (bgPosDisplay) bgPosDisplay.textContent = _bgOffsetX === 0 ? 'center' : (_bgOffsetX > 0 ? '+' : '') + _bgOffsetX;
     render();
   });
 }
@@ -235,8 +286,8 @@ async function render() {
   if (sb) {
     try {
       const b = await loadImg(sb);
-      const s = Math.max(1000 / b.width, 1000 / b.height);
-      ctx.drawImage(b, (1000 - b.width * s) / 2, (1000 - b.height * s) / 2, b.width * s, b.height * s);
+      const s = Math.max(1000 / b.width, 1000 / b.height) * _bgZoom;
+      ctx.drawImage(b, (1000 - b.width * s) / 2 + _bgOffsetX, (1000 - b.height * s) / 2, b.width * s, b.height * s);
     } catch (_) {
       ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg-sunk') || '#24201a';
       ctx.fillRect(0, 0, 1000, 1000);
