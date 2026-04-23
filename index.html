@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/atmosphere.css">
 <link rel="stylesheet" href="css/intro.css">
 <link rel="stylesheet" href="css/wardrobe.css">
+<link rel="stylesheet" href="css/community.css">
 </head>
 <body>
 
@@ -43,6 +44,7 @@
         <a href="#" class="mark">Enko<sup>◊</sup></a>
         <nav class="nav">
           <a href="#section-character" class="active">Overview</a>
+          <a href="#" id="nav-community-link">Community</a>
           <a href="#" id="nav-pfp-link">Wardrobe</a>
           <a href="#section-acquire">Acquire</a>
         </nav>
@@ -341,6 +343,26 @@
         </div>
       </div>
 
+      <div class="section-divider"><span>✠ · IV</span></div>
+
+      <!-- SECTION IV — COMMUNITY CTA -->
+      <div class="section-head" id="section-community">
+        <div class="num-tag">§ IV — The Community</div>
+        <h2>From the <span class="it">habitat.</span></h2>
+        <div class="side">Art · Memes · Fan content</div>
+      </div>
+      <div class="feature-grid" style="padding-bottom:48px">
+        <div class="feature-copy" style="grid-column:1/span 4;padding-top:0;justify-content:center">
+          <p>A gallery of everything made around Enko. Art, memes, and moments from the herd.</p>
+          <div style="margin-top:20px">
+            <button class="btn" id="community-cta-btn">Enter the community <span class="arrow">→</span></button>
+          </div>
+        </div>
+        <div class="feature-image" style="grid-column:6/span 7;aspect-ratio:16/10">
+          <img src="community/bowtie store.png" alt="Community preview" style="position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:cover;display:block;z-index:1;">
+        </div>
+      </div>
+
       <!-- FOOTER -->
       <footer class="footer">
         <div class="footer-grid">
@@ -479,6 +501,60 @@
     </main>
   </div><!-- /page-pfp -->
 
+  <!-- ═══════════════════════════════════
+       PAGE 3: COMMUNITY
+  ═══════════════════════════════════ -->
+  <div id="page-community">
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button class="wd-back" id="community-back-btn">← Overview</button>
+        <a href="#" class="mark">Enko<sup>◊</sup></a>
+        <div class="topbar-cta">
+          <span class="pill"><span class="dot"></span>Community</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell">
+
+      <div class="community-head">
+        <div>
+          <div class="eyebrow">§ — The Community</div>
+          <h1>From the <span class="it">habitat.</span></h1>
+        </div>
+        <div class="community-head-right">
+          <p>Art, memes, and moments from around the Enko universe. Made by the herd.</p>
+        </div>
+      </div>
+
+      <div class="gallery-grid" id="community-grid"></div>
+
+      <footer class="footer">
+        <div class="footer-bottom">
+          <span>Enko · MMXXVI</span>
+          <div>
+            <span>Not financial advice</span>
+            <span>SOL · Mainnet</span>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+  </div><!-- /page-community -->
+
+  <!-- GALLERY LIGHTBOX -->
+  <div id="gallery-lightbox">
+    <button id="lb-close">✕</button>
+    <div id="lb-content">
+      <img id="lb-img" src="" alt="">
+      <div id="lb-meta">
+        <div id="lb-caption"></div>
+        <div id="lb-author"></div>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /main -->
 
 <script>
@@ -505,5 +581,6 @@
 <script src="js/entry.js"></script>
 <script src="js/chart.js"></script>
 <script src="js/wardrobe.js"></script>
+<script src="js/community.js"></script>
 </body>
 </html>

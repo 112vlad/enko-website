@@ -1,0 +1,160 @@
+/* ============================================================
+   ENKO — community gallery page
+   ============================================================ */
+
+#page-community {
+  transform: translateX(100%); opacity: 0;
+  pointer-events: none; overflow: hidden;
+  display: flex; flex-direction: column;
+  position: fixed; inset: 0;
+  overflow-y: auto; scroll-behavior: smooth;
+  transition: transform .55s cubic-bezier(.77,0,.175,1), opacity .5s;
+  background: var(--bg);
+  color: var(--ink);
+  z-index: 2;
+}
+#page-community.pg-on {
+  transform: none; opacity: 1;
+  pointer-events: auto; overflow-y: auto; overflow-x: hidden;
+}
+
+/* ── gallery head ── */
+.community-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gutter);
+  padding: var(--pad-sec) 0 48px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 48px;
+}
+.community-head h1 {
+  font-family: var(--f-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -.01em;
+}
+.community-head-right {
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.community-head-right p {
+  font-size: 15px; line-height: 1.5;
+  color: var(--ink-soft); max-width: 44ch;
+}
+
+/* ── gallery grid ── */
+.gallery-grid {
+  columns: 3;
+  column-gap: 16px;
+  padding-bottom: 80px;
+}
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-sunk);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+}
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+}
+.gallery-item:hover img { transform: scale(1.03); }
+
+.gallery-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(26,24,20,.85) 0%, transparent 50%);
+  opacity: 0; transition: opacity .3s;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 14px 16px;
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+.gallery-caption {
+  font-size: 13px; color: var(--ink); line-height: 1.4;
+  margin-bottom: 4px;
+}
+.gallery-author {
+  font-family: var(--f-mono); font-size: 10px;
+  letter-spacing: 0.1em; color: var(--ink-mute);
+  text-transform: uppercase;
+}
+
+.gallery-type-tag {
+  position: absolute; top: 10px; left: 10px;
+  font-family: var(--f-mono); font-size: 9px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  background: var(--bg); color: var(--ink-soft);
+  padding: 3px 7px; border: 1px solid var(--rule);
+}
+
+/* ── empty state ── */
+.gallery-empty {
+  grid-column: 1 / -1;
+  padding: 80px 0;
+  text-align: center;
+  font-family: var(--f-mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* ── lightbox ── */
+#gallery-lightbox {
+  position: fixed; inset: 0;
+  background: rgba(26,24,20,.92);
+  backdrop-filter: blur(6px);
+  z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s;
+}
+#gallery-lightbox.lb-on {
+  opacity: 1; pointer-events: auto;
+}
+#lb-content {
+  display: flex; flex-direction: column; align-items: center;
+  max-width: min(90vw, 900px);
+  max-height: 90vh;
+}
+#lb-img {
+  display: block;
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border: 1px solid var(--rule);
+  transform: scale(.96);
+  transition: transform .3s cubic-bezier(.25,.46,.45,.94);
+}
+#gallery-lightbox.lb-on #lb-img { transform: scale(1); }
+#lb-meta {
+  margin-top: 14px; text-align: center;
+}
+#lb-caption {
+  font-size: 14px; color: var(--ink); margin-bottom: 4px;
+}
+#lb-author {
+  font-family: var(--f-mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+#lb-close {
+  position: absolute; top: 20px; right: 24px;
+  font-family: var(--f-mono); font-size: 14px;
+  color: var(--ink-mute); background: none; border: none;
+  cursor: pointer; transition: color .2s;
+  line-height: 1;
+}
+#lb-close:hover { color: var(--ink); }
+
+/* ── responsive ── */
+@media (max-width: 900px) {
+  .gallery-grid { columns: 2; }
+  .community-head { grid-template-columns: 1fr; }
+}
+@media (max-width: 540px) {
+  .gallery-grid { columns: 1; }
+}
