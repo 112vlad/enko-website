@@ -19,6 +19,7 @@ const ACCS_LIST = [
   { src: 'pfp/accs/netanyahu.png',  name: 'NETANYAHU' },
   { src: 'pfp/accs/round.png',      name: 'ROUND' },
   { src: 'pfp/accs/sharped.png',    name: 'SHARPED' },
+  { src: 'pfp/accs/cigar.png',      name: 'CIGAR' },
 ];
 const BOW_LIST = [
   { src: 'pfp/bowtie/bacon.png',      name: 'BACON' },
@@ -43,6 +44,7 @@ const CAT_MAP = {
 
 let sb = null, sg = null, sbow = null;
 let btPos = { x: 500, y: 930 }, btSize = 320;
+let btSizeMultiplier = 1;
 let _isDrag = false, _dragOff = { x: 0, y: 0 };
 let _activeCat = 'characters';
 let _wardrobeInited = false;
@@ -101,7 +103,15 @@ function buildCategory(cat) {
       d.classList.add('selected');
       if (type === 'bg') sb = item.src;
       else if (type === 'gf') sg = item.src;
-      else { sbow = item.src; btPos = { x: 500, y: 930 }; }
+      else { 
+        sbow = item.src; 
+        btPos = { x: 500, y: 930 };
+        btSizeMultiplier = 1;
+        const bowSizeSlider = document.getElementById('bow-size-slider');
+        if (bowSizeSlider) bowSizeSlider.value = 100;
+        const sizeDisplay = document.getElementById('size-display');
+        if (sizeDisplay) sizeDisplay.textContent = '100%';
+      }
       if (slotClear) slotClear.style.display = 'inline';
       updateSummary();
       render();
@@ -113,6 +123,10 @@ function buildCategory(cat) {
 function setCategory(cat) {
   _activeCat = cat;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+  const sizeGroup = document.getElementById('size-group');
+  if (sizeGroup) {
+    sizeGroup.style.display = cat === 'accessories' ? 'block' : 'none';
+  }
   buildCategory(cat);
 }
 
@@ -121,13 +135,31 @@ function clearCurrentSlot() {
   const { type } = CAT_MAP[_activeCat];
   if (type === 'bg') sb = null;
   else if (type === 'gf') sg = null;
-  else sbow = null;
+  else {
+    sbow = null;
+    btSizeMultiplier = 1;
+    const bowSizeSlider = document.getElementById('bow-size-slider');
+    if (bowSizeSlider) bowSizeSlider.value = 100;
+    const sizeDisplay = document.getElementById('size-display');
+    if (sizeDisplay) sizeDisplay.textContent = '100%';
+  }
   buildCategory(_activeCat);
   updateSummary();
   render();
 }
 
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => setCategory(t.dataset.cat)));
+
+const bowSizeSlider = document.getElementById('bow-size-slider');
+if (bowSizeSlider) {
+  bowSizeSlider.addEventListener('input', e => {
+    btSizeMultiplier = parseFloat(e.target.value) / 100;
+    const sizeDisplay = document.getElementById('size-display');
+    if (sizeDisplay) sizeDisplay.textContent = e.target.value + '%';
+    render();
+  });
+}
+
 buildCategory('characters');
 
 function updateSummary() {
@@ -162,8 +194,10 @@ _ppc.addEventListener('mousedown', e => {
   if (!sbow) return;
   const p = _cv(e), bow = _imgCache[sbow];
   if (!bow) return;
-  const bh = btSize * (bow.height / bow.width);
-  if (p.x >= btPos.x - btSize / 2 && p.x <= btPos.x + btSize / 2 &&
+  const bowScale = BOW_LIST.find(x => x.src === sbow)?.scale || 1;
+  const bw = btSize * bowScale * btSizeMultiplier;
+  const bh = bw * (bow.height / bow.width);
+  if (p.x >= btPos.x - bw / 2 && p.x <= btPos.x + bw / 2 &&
       p.y >= btPos.y - bh / 2 && p.y <= btPos.y + bh / 2) {
     _isDrag = true;
     _dragOff = { x: p.x - btPos.x, y: p.y - btPos.y };
@@ -178,8 +212,11 @@ _ppc.addEventListener('mousemove', e => {
   }
   if (sbow) {
     const bow = _imgCache[sbow]; if (!bow) return;
-    const p = _cv(e), bh = btSize * (bow.height / bow.width);
-    const over = p.x >= btPos.x - btSize / 2 && p.x <= btPos.x + btSize / 2 &&
+    const bowScale = BOW_LIST.find(x => x.src === sbow)?.scale || 1;
+    const bw = btSize * bowScale * btSizeMultiplier;
+    const bh = bw * (bow.height / bow.width);
+    const p = _cv(e);
+    const over = p.x >= btPos.x - bw / 2 && p.x <= btPos.x + bw / 2 &&
                  p.y >= btPos.y - bh / 2 && p.y <= btPos.y + bh / 2;
     _ppc.style.cursor = over ? (_isDrag ? 'grabbing' : 'grab') : 'default';
   }
@@ -216,7 +253,7 @@ async function render() {
     try {
       const bow = await loadImg(sbow);
       const bowScale = BOW_LIST.find(x => x.src === sbow)?.scale || 1;
-      const bw = btSize * bowScale;
+      const bw = btSize * bowScale * btSizeMultiplier;
       const bh = bw * (bow.height / bow.width);
       ctx.drawImage(bow, btPos.x - bw / 2, btPos.y - bh / 2, bw, bh);
       if (dragHint) dragHint.style.opacity = '0.65';
