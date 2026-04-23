@@ -222,13 +222,12 @@ async function render() {
     if (dragHint) dragHint.style.opacity = '0';
   }
 
-  document.getElementById('dlbtn').disabled = !(sb || sg);
+  const dlbtn = document.getElementById('dlbtn');
+  if (dlbtn) dlbtn.disabled = !(sb || sg);
 }
 
 /* ── DOWNLOAD ── */
 async function doDownload() {
-  const dl = document.getElementById('dlbtn'), orig = dl.textContent;
-  dl.textContent = 'Saving…'; dl.disabled = true;
   await render();
   try {
     await new Promise((res, rej) => {
@@ -242,15 +241,12 @@ async function doDownload() {
         res();
       }, 'image/png');
     });
-    dl.textContent = '✓ Saved';
-    setTimeout(() => { dl.textContent = orig; dl.disabled = !(sb || sg); }, 1600);
   } catch (_) {
-    dl.textContent = orig; dl.disabled = !(sb || sg);
     alert('Could not save — try serving over http://');
   }
 }
 
-document.getElementById('dlbtn').addEventListener('click', doDownload);
+document.getElementById('dlbtn')?.addEventListener('click', doDownload);
 
 /* ── RESET ── */
 function doReset() {
@@ -259,7 +255,8 @@ function doReset() {
   _ppc.style.display = 'none';
   const ph = document.getElementById('ph');
   if (ph) ph.style.display = 'flex';
-  document.getElementById('dlbtn').disabled = true;
+  const dlbtn2 = document.getElementById('dlbtn');
+  if (dlbtn2) dlbtn2.disabled = true;
   const dragHint = document.getElementById('drag-hint');
   if (dragHint) dragHint.style.opacity = '0';
   btPos = { x: 500, y: 870 };
@@ -267,4 +264,4 @@ function doReset() {
   updateSummary();
 }
 
-document.getElementById('rstbtn').addEventListener('click', doReset);
+document.getElementById('rstbtn')?.addEventListener('click', doReset);
