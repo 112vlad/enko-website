@@ -17,6 +17,9 @@
 <!-- BOWTIE CURSOR (hidden until after entry) -->
 <div id="papion-cur"><img src="papion.png" alt=""></div>
 
+<!-- GLOBAL PARTICLE OVERLAY -->
+<canvas id="particle-overlay" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998;"></canvas>
+
 <!-- ══ INTRO ══ -->
 <div id="intro"><p class="intro-text" id="itxt"></p></div>
 
@@ -45,7 +48,6 @@
         </nav>
         <div class="topbar-cta">
           <span class="pill"><span class="dot"></span>SOL · LIVE</span>
-          <button class="btn" id="theme-btn" style="padding:10px 16px;font-size:11px">Light</button>
         </div>
       </div>
     </header>
@@ -148,29 +150,24 @@
                 <circle cx="200" cy="220" r="146" fill="none" stroke="#04030a" stroke-width="1"/>
                 <circle cx="200" cy="220" r="142" fill="none" stroke="#5a5042" stroke-width="0.3" stroke-dasharray="0.5 2.5" opacity="0.5"/>
                 <circle cx="200" cy="220" r="148" fill="url(#specular)"/>
-                <!-- girafa.png clipped to inner medallion circle -->
-                <image href="girafa.png" x="56" y="76" width="288" height="288" clip-path="url(#faceClip)" preserveAspectRatio="xMidYMid meet"/>
+                <!-- profile photo clipped to inner medallion circle -->
+                <image href="girafacoin.png" x="56" y="76" width="288" height="288" clip-path="url(#faceClip)" preserveAspectRatio="xMidYMid slice"/>
                 <g transform="translate(200 370)">
-                  <line x1="-36" y1="0" x2="-14" y2="0" stroke="#5a5042" stroke-width="0.5"/>
-                  <line x1="14" y1="0" x2="36" y2="0" stroke="#5a5042" stroke-width="0.5"/>
-                  <text x="0" y="4" text-anchor="middle" font-family="'Fraunces',Georgia,serif" font-size="15" font-style="italic" fill="#bfa97e" letter-spacing="1">Enko</text>
+                  <line x1="-41" y1="15" x2="-25" y2="15" stroke="#5a5042" stroke-width="0.5"/>
+                  <line x1="25" y1="15" x2="41" y2="15" stroke="#5a5042" stroke-width="0.5"/>
+                  <text x="0" y="20" text-anchor="middle" font-family="'Fraunces',Georgia,serif" font-size="15" font-style="italic" fill="#bfa97e" letter-spacing="1">Enko</text>
                   <text x="0" y="20" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="7" letter-spacing="4" fill="#6a5f4c">1 / 1</text>
                 </g>
                 <ellipse cx="150" cy="120" rx="70" ry="14" fill="#8a7d62" opacity="0.08" transform="rotate(-18 150 120)"/>
               </svg>
             </div>
-            <div class="emblem-caption">
-              <span>✠ Hand-composed</span>
-              <span>Nº 001 · Plate 01/01</span>
-            </div>
           </div>
 
-          <!-- hero-meta overlaps emblem bottom -->
           <div class="hero-meta">
             <div class="hero-meta-row">
               <div>
                 <div class="k">Origin</div>
-                <div class="v">Solana · 2026</div>
+                <div class="v">Solana</div>
               </div>
               <div>
                 <div class="k">Temperament</div>
@@ -264,7 +261,7 @@
           </div>
           <div class="ch-loading" id="ch-loading" style="font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mute);padding:.6rem 1.4rem;display:none">Loading candles…</div>
           <div style="position:relative;padding:.6rem">
-            <canvas id="enko-chart" style="display:block;width:100%"></canvas>
+            <canvas id="enko-chart" style="display:block;width:100%;cursor:crosshair"></canvas>
             <div id="ch-tooltip" style="position:absolute;pointer-events:none;display:none;background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:11px;padding:8px 10px;white-space:pre;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,.18)"></div>
           </div>
         </div>
@@ -272,33 +269,9 @@
 
       <div class="section-divider"><span>✠ · I</span></div>
 
-      <!-- SECTION I — THE CHARACTER -->
-      <div class="section-head" id="section-character">
-        <div class="num-tag">§ I — The Character</div>
-        <h2>Composure, in a <span class="it">long</span> neck.</h2>
-        <div class="side">Height 4.8 m · Pattern reticulated · Disposition unhurried</div>
-      </div>
-      <div class="feature-grid">
-        <div class="feature-copy">
-          <p>Enko was not designed to react. He was designed to observe — from a height other market participants cannot reach, and on a timescale they rarely consider.</p>
-          <p>Where others chase the ground, Enko eats from the canopy. Where others dart, Enko arrives.</p>
-          <div class="feature-caption">
-            <div class="cell"><div class="k">Height</div><div class="v">4.8 metres</div></div>
-            <div class="cell"><div class="k">Pattern</div><div class="v">26 plates</div></div>
-            <div class="cell"><div class="k">Disposition</div><div class="v">Unhurried</div></div>
-            <div class="cell"><div class="k">Habitat</div><div class="v">SOL savanna</div></div>
-          </div>
-        </div>
-        <div class="feature-image">
-          <div class="placeholder"><span>Enko · portrait</span></div>
-        </div>
-      </div>
-
-      <div class="section-divider"><span>✠ · II</span></div>
-
-      <!-- SECTION II — THE LEDGER -->
+      <!-- SECTION I — THE LEDGER -->
       <div class="section-head" id="section-ledger">
-        <div class="num-tag">§ II — The Ledger</div>
+        <div class="num-tag">§ I — The Ledger</div>
         <h2>Recent <span class="it">movement.</span></h2>
         <div class="side">Live · refreshed every block</div>
       </div>
@@ -314,16 +287,34 @@
               <th>Wallet</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td style="color:var(--ink-mute)">18:42</td><td class="pos">BUY</td><td>482,130</td><td>$0.008346</td><td>$4,024.26</td><td style="color:var(--ink-soft)">7xQk…p3Lm</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:39</td><td class="pos">BUY</td><td>128,000</td><td>$0.008318</td><td>$1,064.70</td><td style="color:var(--ink-soft)">H9vE…qW41</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:36</td><td class="neg">SELL</td><td>1,204,502</td><td>$0.008290</td><td>$9,985.33</td><td style="color:var(--ink-soft)">Ab2X…tRn8</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:32</td><td class="pos">BUY</td><td>68,900</td><td>$0.008275</td><td>$570.14</td><td style="color:var(--ink-soft)">Np7k…vBx2</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:29</td><td class="pos">BUY</td><td>2,100,000</td><td>$0.008251</td><td>$17,326.96</td><td style="color:var(--ink-soft)">cE4m…wSg7</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:22</td><td class="neg">SELL</td><td>340,000</td><td>$0.008244</td><td>$2,802.96</td><td style="color:var(--ink-soft)">Lf8p…dKh3</td></tr>
-            <tr><td style="color:var(--ink-mute)">18:18</td><td class="pos">BUY</td><td>95,400</td><td>$0.008211</td><td>$783.33</td><td style="color:var(--ink-soft)">QrT5…xMz9</td></tr>
+          <tbody id="tx-body">
+            <tr><td colspan="6" style="color:var(--ink-mute);text-align:center;padding:24px">Loading…</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="section-divider"><span>✠ · II</span></div>
+
+      <!-- SECTION II — THE CHARACTER -->
+      <div class="section-head" id="section-character">
+        <div class="num-tag">§ II — The Character</div>
+        <h2>Composure, in a <span class="it">long</span> neck.</h2>
+        <div class="side">Height 4.8 m · Pattern reticulated · Disposition unhurried</div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-copy">
+          <p>Enko was not designed to react. He was designed to observe — from a height other market participants cannot reach, and on a timescale they rarely consider.</p>
+          <p>Where others chase the ground, Enko eats from the canopy. Where others dart, Enko arrives.</p>
+          <div class="feature-caption">
+            <div class="cell"><div class="k">Height</div><div class="v">4.8 metres</div></div>
+            <div class="cell"><div class="k">Pattern</div><div class="v">26 plates</div></div>
+            <div class="cell"><div class="k">Disposition</div><div class="v">Unhurried</div></div>
+            <div class="cell"><div class="k">Habitat</div><div class="v">SOL savanna</div></div>
+          </div>
+        </div>
+        <div class="feature-image">
+          <img src="enkoportrait.png" alt="Enko portrait" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
+        </div>
       </div>
 
       <div class="section-divider"><span>✠ · III</span></div>
@@ -336,7 +327,7 @@
       </div>
       <div class="feature-grid" style="padding-bottom:48px">
         <div class="feature-image" style="grid-column:1/span 7;aspect-ratio:16/10">
-          <div class="placeholder"><span>Wardrobe · preview</span></div>
+          <img src="pfp/accs/chrome.png" alt="Wardrobe preview" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
         </div>
         <div class="feature-copy" style="grid-column:9/span 4;padding-top:0;justify-content:center">
           <p>A studio of considered objects. Each piece is a decision.</p>
@@ -416,10 +407,7 @@
         </div>
         <div class="wardrobe-head-right">
           <p>Select an accessory. Set a background. Save your portrait and use it wherever a face is asked of you.</p>
-          <div style="display:flex;gap:12px;margin-top:20px">
-            <button class="btn" id="dlbtn" disabled>Save portrait <span class="arrow">↓</span></button>
-            <button class="btn ghost" id="rstbtn">Reset</button>
-          </div>
+
         </div>
       </div>
 

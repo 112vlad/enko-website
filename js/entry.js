@@ -2,6 +2,15 @@
 const MSG = 'where should the bowtie go?';
 const itxt = document.getElementById('itxt');
 let ci = 0;
+let _entryShown = false;
+
+function showEntryOnce() {
+  if (_entryShown) return;
+  _entryShown = true;
+  showEntry();
+}
+
+document.getElementById('intro').addEventListener('click', showEntryOnce);
 
 function type() {
   if (ci <= MSG.length) {
@@ -9,7 +18,7 @@ function type() {
     ci++;
     setTimeout(type, 80 + Math.random() * 60);
   } else {
-    setTimeout(showEntry, 1100);
+    setTimeout(showEntryOnce, 2500);
   }
 }
 type();
@@ -19,9 +28,9 @@ async function initEntryCanvas() {
   const canvas = document.getElementById('entry-canvas');
   const hint = document.getElementById('gate-hint');
   const ctx = canvas.getContext('2d');
-  let giraffe, papion;
+  let giraffe;
   try {
-    [giraffe, papion] = await Promise.all([loadImg('girafa.png'), loadImg('papion.png')]);
+    giraffe = await loadImg('girafa.png');
   } catch (e) {
     hint.textContent = '[ failed to load images ]';
     return;
@@ -35,7 +44,6 @@ async function initEntryCanvas() {
 
   const neck = { x: IW * .36, y: IH * .33, w: IW * .28, h: IH * .60 };
   let mx = IW / 2, my = IH / 2, hovering = false, phase = 0;
-  const particles = [];
 
   canvas.addEventListener('mousemove', e => {
     const r = canvas.getBoundingClientRect();
@@ -59,24 +67,9 @@ async function initEntryCanvas() {
     ctx.clearRect(0, 0, IW, IH);
     ctx.drawImage(giraffe, 0, 0, IW, IH);
     const vig = ctx.createRadialGradient(IW / 2, IH / 2, IW * .22, IW / 2, IH / 2, IW * .78);
-    vig.addColorStop(0, 'rgba(0,0,0,0)');
-    vig.addColorStop(1, `rgba(0,0,0,${.50 + Math.sin(phase * .015) * .08})`);
+    vig.addColorStop(0, 'rgba(26,24,20,0)');
+    vig.addColorStop(1, `rgba(26,24,20,${.55 + Math.sin(phase * .015) * .08})`);
     ctx.fillStyle = vig; ctx.fillRect(0, 0, IW, IH);
-    if (Math.random() > .5) {
-      const col = hovering ? [255, 180, 0] : [77, 255, 145];
-      particles.push({
-        x: mx + (Math.random() - .5) * 10, y: my + (Math.random() - .5) * 10,
-        vx: (Math.random() - .5) * 1.8, vy: -Math.random() * 2 - .3,
-        life: 1, sz: Math.ceil(2 + Math.random() * 4), col
-      });
-    }
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.x += p.vx; p.y += p.vy; p.vy += .05; p.life -= .03;
-      if (p.life <= 0) { particles.splice(i, 1); continue; }
-      ctx.fillStyle = `rgba(${p.col[0]},${p.col[1]},${p.col[2]},${p.life * .85})`;
-      ctx.fillRect(Math.round(p.x), Math.round(p.y), p.sz, p.sz);
-    }
     phase += .045;
     requestAnimationFrame(frame);
   })();
@@ -92,8 +85,7 @@ function showEntry() {
     e.classList.add('on');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       e.classList.add('vis');
-      /* show bowtie cursor on entry gate screen */
-      document.getElementById('papion-cur').style.display = 'block';
+      activateBowtie();
     }));
     initEntryCanvas();
   }, 700);

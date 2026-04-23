@@ -5,6 +5,7 @@
 const BG_LIST = [
   { src: 'pfp/backgrounds/background1.jpg', name: 'SAVANNA' },
   { src: 'pfp/backgrounds/background2.jpg', name: 'HORIZON' },
+  { src: 'pfp/backgrounds/cathedral.png',   name: 'CATHEDRAL' },
 ];
 const ACCS_LIST = [
   { src: 'pfp/accs/bloods.png',     name: 'BLOODS' },
@@ -22,7 +23,7 @@ const ACCS_LIST = [
 const BOW_LIST = [
   { src: 'pfp/bowtie/bacon.png',      name: 'BACON' },
   { src: 'pfp/bowtie/dollar.png',     name: 'DOLLAR' },
-  { src: 'pfp/bowtie/israel.png',     name: 'ISRAEL' },
+  { src: 'pfp/bowtie/israel.png',     name: 'ISRAEL', scale: 1.8 },
   { src: 'pfp/bowtie/jhon pork.png',  name: 'JHON PORK' },
   { src: 'pfp/bowtie/lego.png',       name: 'LEGO' },
   { src: 'pfp/bowtie/lightning.png',  name: 'LIGHTNING' },
@@ -41,7 +42,7 @@ const CAT_MAP = {
 };
 
 let sb = null, sg = null, sbow = null;
-let btPos = { x: 500, y: 870 }, btSize = 320;
+let btPos = { x: 500, y: 930 }, btSize = 320;
 let _isDrag = false, _dragOff = { x: 0, y: 0 };
 let _activeCat = 'characters';
 let _wardrobeInited = false;
@@ -100,7 +101,7 @@ function buildCategory(cat) {
       d.classList.add('selected');
       if (type === 'bg') sb = item.src;
       else if (type === 'gf') sg = item.src;
-      else { sbow = item.src; btPos = { x: 500, y: 870 }; }
+      else { sbow = item.src; btPos = { x: 500, y: 930 }; }
       if (slotClear) slotClear.style.display = 'inline';
       updateSummary();
       render();
@@ -214,21 +215,22 @@ async function render() {
   if (sbow) {
     try {
       const bow = await loadImg(sbow);
-      const bh = btSize * (bow.height / bow.width);
-      ctx.drawImage(bow, btPos.x - btSize / 2, btPos.y - bh / 2, btSize, bh);
+      const bowScale = BOW_LIST.find(x => x.src === sbow)?.scale || 1;
+      const bw = btSize * bowScale;
+      const bh = bw * (bow.height / bow.width);
+      ctx.drawImage(bow, btPos.x - bw / 2, btPos.y - bh / 2, bw, bh);
       if (dragHint) dragHint.style.opacity = '0.65';
     } catch (_) { }
   } else {
     if (dragHint) dragHint.style.opacity = '0';
   }
 
-  document.getElementById('dlbtn').disabled = !(sb || sg);
+  const dlbtn = document.getElementById('dlbtn');
+  if (dlbtn) dlbtn.disabled = !(sb || sg);
 }
 
 /* ── DOWNLOAD ── */
 async function doDownload() {
-  const dl = document.getElementById('dlbtn'), orig = dl.textContent;
-  dl.textContent = 'Saving…'; dl.disabled = true;
   await render();
   try {
     await new Promise((res, rej) => {
@@ -242,15 +244,12 @@ async function doDownload() {
         res();
       }, 'image/png');
     });
-    dl.textContent = '✓ Saved';
-    setTimeout(() => { dl.textContent = orig; dl.disabled = !(sb || sg); }, 1600);
   } catch (_) {
-    dl.textContent = orig; dl.disabled = !(sb || sg);
     alert('Could not save — try serving over http://');
   }
 }
 
-document.getElementById('dlbtn').addEventListener('click', doDownload);
+document.getElementById('dlbtn')?.addEventListener('click', doDownload);
 
 /* ── RESET ── */
 function doReset() {
@@ -259,12 +258,13 @@ function doReset() {
   _ppc.style.display = 'none';
   const ph = document.getElementById('ph');
   if (ph) ph.style.display = 'flex';
-  document.getElementById('dlbtn').disabled = true;
+  const dlbtn2 = document.getElementById('dlbtn');
+  if (dlbtn2) dlbtn2.disabled = true;
   const dragHint = document.getElementById('drag-hint');
   if (dragHint) dragHint.style.opacity = '0';
-  btPos = { x: 500, y: 870 };
+  btPos = { x: 500, y: 930 };
   buildCategory(_activeCat);
   updateSummary();
 }
 
-document.getElementById('rstbtn').addEventListener('click', doReset);
+document.getElementById('rstbtn')?.addEventListener('click', doReset);
