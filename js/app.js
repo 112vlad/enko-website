@@ -98,32 +98,90 @@ function loadImg(src) {
 }
 
 /* ── PAGE NAVIGATION ── */
+let currentPage = 'main'; // Track current page
+
 function goToPfp() {
-  document.getElementById('page-community').classList.remove('pg-on');
-  document.getElementById('page-main').classList.add('pg-off');
+  const community = document.getElementById('page-community');
+  const main = document.getElementById('page-main');
   const pfp = document.getElementById('page-pfp');
+  
+  community.classList.remove('pg-on', 'slide-from-left', 'slide-from-right');
+  
+  if (currentPage === 'main') {
+    // Overview → Wardrobe: slide from right
+    main.classList.add('pg-off', 'slide-right');
+    pfp.classList.remove('slide-from-left', 'slide-from-right');
+  } else if (currentPage === 'community') {
+    // Community → Wardrobe: slide from left
+    community.classList.add('slide-from-left');
+    pfp.classList.remove('slide-from-right');
+  }
+  
   pfp.classList.add('pg-on');
   pfp.scrollTop = 0;
+  currentPage = 'pfp';
   if (typeof initWardrobeDefaults === 'function') initWardrobeDefaults();
 }
+
 function goToCommunity() {
-  document.getElementById('page-pfp').classList.remove('pg-on');
-  document.getElementById('page-main').classList.add('pg-off');
+  const main = document.getElementById('page-main');
+  const pfp = document.getElementById('page-pfp');
   const com = document.getElementById('page-community');
+  
+  pfp.classList.remove('pg-on', 'slide-from-left', 'slide-from-right');
+  
+  if (currentPage === 'main') {
+    // Overview → Community: slide from right
+    main.classList.add('pg-off', 'slide-right');
+    com.classList.remove('slide-from-left');
+  } else if (currentPage === 'pfp') {
+    // Wardrobe → Community: slide from left
+    pfp.classList.add('slide-from-right');
+    com.classList.remove('slide-from-left');
+  }
+  
   com.classList.add('pg-on');
   com.scrollTop = 0;
+  currentPage = 'community';
 }
+
 function goToMain() {
-  document.getElementById('page-main').classList.remove('pg-off');
-  document.getElementById('page-pfp').classList.remove('pg-on');
-  document.getElementById('page-community').classList.remove('pg-on');
+  const main = document.getElementById('page-main');
+  const pfp = document.getElementById('page-pfp');
+  const com = document.getElementById('page-community');
+  
+  main.classList.remove('slide-right', 'slide-left');
+  
+  if (currentPage === 'pfp') {
+    // Wardrobe → Overview: slide in from left
+    pfp.classList.add('slide-from-right');
+  } else if (currentPage === 'community') {
+    // Community → Overview: slide in from left
+    com.classList.add('slide-from-left');
+  }
+  
+  pfp.classList.remove('pg-on');
+  com.classList.remove('pg-on');
+  currentPage = 'main';
 }
 
 document.getElementById('nav-pfp-link').addEventListener('click', e => { e.preventDefault(); goToPfp(); });
 document.getElementById('nav-community-link').addEventListener('click', e => { e.preventDefault(); goToCommunity(); });
 document.getElementById('card-wardrobe-btn').addEventListener('click', goToPfp);
-document.getElementById('back-btn').addEventListener('click', goToMain);
-document.getElementById('community-back-btn').addEventListener('click', goToMain);
+
+// New navigation links from wardrobe page topbar
+document.getElementById('nav-main-link-pfp')?.addEventListener('click', e => { e.preventDefault(); goToMain(); });
+document.getElementById('nav-community-link-pfp')?.addEventListener('click', e => { e.preventDefault(); goToCommunity(); });
+document.getElementById('pfp-mark-link')?.addEventListener('click', e => { e.preventDefault(); goToMain(); });
+
+// New navigation links from community page topbar
+document.getElementById('nav-main-link-community')?.addEventListener('click', e => { e.preventDefault(); goToMain(); });
+document.getElementById('nav-wardrobe-link-community')?.addEventListener('click', e => { e.preventDefault(); goToPfp(); });
+document.getElementById('community-mark-link')?.addEventListener('click', e => { e.preventDefault(); goToMain(); });
+
+// Keep support for old back buttons (for backward compatibility)
+document.getElementById('back-btn')?.addEventListener('click', goToMain);
+document.getElementById('community-back-btn')?.addEventListener('click', goToMain);
 
 document.querySelectorAll('.mark').forEach(link => {
   link.addEventListener('click', e => {

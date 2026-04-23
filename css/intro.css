@@ -66,7 +66,7 @@
 #main.vis { opacity: 1; }
 
 /* ── PAGE SYSTEM ── */
-#page-main, #page-pfp {
+#page-main, #page-pfp, #page-community {
   position: fixed; inset: 0;
   overflow-y: auto; scroll-behavior: smooth;
   transition: transform .55s cubic-bezier(.77,0,.175,1), opacity .5s;
@@ -74,13 +74,33 @@
   color: var(--ink);
   z-index: 2;
 }
+
 #page-pfp {
   transform: translateX(100%); opacity: 0;
   pointer-events: none; overflow: hidden;
   display: flex; flex-direction: column;
 }
+
+#page-community {
+  transform: translateX(100%); opacity: 0;
+  pointer-events: none; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+/* Default states */
+#page-main { transform: translateX(0); opacity: 1; }
 #page-pfp.pg-on { transform: none; opacity: 1; pointer-events: auto; overflow-y: auto; overflow-x: hidden; }
-#page-main.pg-off { transform: translateX(-22%); opacity: 0; pointer-events: none; }
+#page-community.pg-on { transform: none; opacity: 1; pointer-events: auto; overflow-y: auto; overflow-x: hidden; }
+
+/* Directional animations */
+#page-main.slide-right { transform: translateX(100%); opacity: 0; }
+#page-main.slide-left { transform: translateX(-100%); opacity: 0; }
+
+#page-pfp.slide-from-right { transform: translateX(100%); opacity: 0; }
+#page-pfp.slide-from-left { transform: translateX(-100%); opacity: 0; }
+
+#page-community.slide-from-right { transform: translateX(100%); opacity: 0; }
+#page-community.slide-from-left { transform: translateX(-100%); opacity: 0; }
 
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-thumb { background: var(--rule); }
