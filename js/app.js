@@ -120,19 +120,4 @@ document.getElementById('wardrobe-cta-btn')?.addEventListener('click', goToPfp);
 document.getElementById('footer-wardrobe-link')?.addEventListener('click', e => { e.preventDefault(); goToPfp(); });
 
 /* ── THEME TOGGLE ── */
-(function initTheme() {
-  const root = document.documentElement;
-  const saved = localStorage.getItem('enko-theme') || 'dark';
-  root.setAttribute('data-theme', saved);
-  const btn = document.getElementById('theme-btn');
-  if (btn) {
-    btn.textContent = saved === 'dark' ? 'Light' : 'Dark';
-    btn.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      localStorage.setItem('enko-theme', next);
-      btn.textContent = next === 'dark' ? 'Light' : 'Dark';
-    });
-  }
-})();
+document.documentElement.setAttribute('data-theme', 'dark');
