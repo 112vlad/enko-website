@@ -3,26 +3,27 @@
 ══════════════════════════════════════ */
 
 const BG_LIST = [
-  { src: 'pfp/backgrounds/background1.jpg', name: 'SAVANNA' },
-  { src: 'pfp/backgrounds/background2.jpg', name: 'HORIZON' },
-  { src: 'pfp/backgrounds/cathedral.png',   name: 'CATHEDRAL' },
+  { src: 'pfp/backgrounds/big ben.jpg',            name: 'BIG BEN' },
+  { src: 'pfp/backgrounds/breaking bad.jpg',       name: 'BREAKING BAD', zoom: 1.50, posX: 287 },
+  { src: 'pfp/backgrounds/cathedral.png',          name: 'CATHEDRAL' },
   { src: 'pfp/backgrounds/cn tower.jpg',           name: 'CN TOWER', posX: -395 },
   { src: 'pfp/backgrounds/colosseum.jpg',          name: 'COLOSSEUM', posX: -41 },
   { src: 'pfp/backgrounds/eiffel tower.jpg',       name: 'EIFFEL', zoom: 1.02, posX: 53 },
+  { src: 'pfp/backgrounds/ichiraku ramen.jpeg',    name: 'ICHIRAKU', zoom: 1.08, posX: -102 },
   { src: 'pfp/backgrounds/mario.jpg',              name: 'MARIO', posX: 63 },
   { src: 'pfp/backgrounds/mugshot.jpg',            name: 'MUGSHOT' },
   { src: 'pfp/backgrounds/nether.png',             name: 'NETHER', posX: -11 },
   { src: 'pfp/backgrounds/nuketown.jpg',           name: 'NUKETOWN', posX: 117 },
+  { src: 'pfp/backgrounds/metin2.png',             name: 'METIN2', zoom: 1.08, posX: 142 },
   { src: 'pfp/backgrounds/moon.jpg',               name: 'MOON', posX: 142 },
   { src: 'pfp/backgrounds/pleasant park.jpg',      name: 'PLEASANT PARK', posX: -93 },
   { src: 'pfp/backgrounds/pyramids.jpg',           name: 'PYRAMIDS' },
   { src: 'pfp/backgrounds/rialto.png',             name: 'RIALTO', posX: -185 },
-  { src: 'pfp/backgrounds/roblox.jpg',             name: 'ROBLOX' },
+  { src: 'pfp/backgrounds/krusty krab.png',        name: 'KRUSTY KRAB' },
   { src: 'pfp/backgrounds/satoshi nakamoto.jpg',   name: 'SATOSHI', zoom: 1.74, posX: 386 },
   { src: 'pfp/backgrounds/statue of liberty.jpg',  name: 'LIBERTY', posX: -47 },
   { src: 'pfp/backgrounds/times square.jpg',       name: 'TIMES SQ', posX: -74 },
   { src: 'pfp/backgrounds/vice city.jpg',          name: 'VICE CITY', posX: -179 },
-  { src: 'pfp/backgrounds/wanted.jpg',             name: 'WANTED', zoom: 1.04 },
 ];
 const ACCS_LIST = [
   { src: 'pfp/accs/bloods.png',     name: 'BLOODS' },
@@ -36,7 +37,16 @@ const ACCS_LIST = [
   { src: 'pfp/accs/netanyahu.png',  name: 'NETANYAHU' },
   { src: 'pfp/accs/round.png',      name: 'ROUND' },
   { src: 'pfp/accs/sharped.png',    name: 'SHARPED' },
-  { src: 'pfp/accs/cigar.png',      name: 'CIGAR' },
+  { src: 'pfp/accs/cigar.png',               name: 'CIGAR' },
+  { src: 'pfp/accs/supreme.png',             name: 'SUPREME' },
+  { src: 'pfp/accs/anita max wynn.png',      name: 'ANITA MAX WYNN' },
+  { src: 'pfp/accs/british guard.png',       name: 'BRITISH GUARD' },
+  { src: 'pfp/accs/graduation ushanka.png',  name: 'GRAD USHANKA' },
+  { src: 'pfp/accs/gucci.png',               name: 'GUCCI' },
+  { src: 'pfp/accs/jester.png',              name: 'JESTER' },
+  { src: 'pfp/accs/naruto.png',              name: 'NARUTO' },
+  { src: 'pfp/accs/propeller hat.png',       name: 'PROPELLER HAT' },
+  { src: 'pfp/accs/sombrero.png',            name: 'SOMBRERO' },
 ];
 const BOW_LIST = [
   { src: 'pfp/bowtie/bacon.png',      name: 'BACON' },
@@ -124,14 +134,6 @@ function buildCategory(cat) {
         sb = item.src;
         _bgOffsetX = item.posX || 0;
         _bgZoom = item.zoom || 1.0;
-        const bgPosSlider = document.getElementById('bg-pos-slider');
-        const bgPosDisplay = document.getElementById('bg-pos-display');
-        if (bgPosSlider) bgPosSlider.value = _bgOffsetX;
-        if (bgPosDisplay) bgPosDisplay.textContent = _bgOffsetX === 0 ? 'center' : (_bgOffsetX > 0 ? '+' : '') + _bgOffsetX;
-        const bgZoomSlider = document.getElementById('bg-zoom-slider');
-        const bgZoomDisplay = document.getElementById('bg-zoom-display');
-        if (bgZoomSlider) bgZoomSlider.value = Math.round(_bgZoom * 100);
-        if (bgZoomDisplay) bgZoomDisplay.textContent = Math.round(_bgZoom * 100) + '%';
       }
       else if (type === 'gf') sg = item.src;
       else { 
@@ -156,8 +158,6 @@ function setCategory(cat) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
   const sizeGroup = document.getElementById('size-group');
   if (sizeGroup) sizeGroup.style.display = cat === 'accessories' ? 'block' : 'none';
-  const bgZoomGroup = document.getElementById('bg-zoom-group');
-  if (bgZoomGroup) bgZoomGroup.style.display = cat === 'backgrounds' ? 'block' : 'none';
   buildCategory(cat);
 }
 
@@ -191,25 +191,7 @@ if (bowSizeSlider) {
   });
 }
 
-const bgZoomSlider = document.getElementById('bg-zoom-slider');
-if (bgZoomSlider) {
-  bgZoomSlider.addEventListener('input', e => {
-    _bgZoom = parseFloat(e.target.value) / 100;
-    const bgZoomDisplay = document.getElementById('bg-zoom-display');
-    if (bgZoomDisplay) bgZoomDisplay.textContent = e.target.value + '%';
-    render();
-  });
-}
 
-const bgPosSlider = document.getElementById('bg-pos-slider');
-if (bgPosSlider) {
-  bgPosSlider.addEventListener('input', e => {
-    _bgOffsetX = parseFloat(e.target.value);
-    const bgPosDisplay = document.getElementById('bg-pos-display');
-    if (bgPosDisplay) bgPosDisplay.textContent = _bgOffsetX === 0 ? 'center' : (_bgOffsetX > 0 ? '+' : '') + _bgOffsetX;
-    render();
-  });
-}
 
 buildCategory('characters');
 
