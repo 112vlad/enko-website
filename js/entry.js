@@ -30,7 +30,7 @@ async function initEntryCanvas() {
   const ctx = canvas.getContext('2d');
   let giraffe;
   try {
-    giraffe = await loadImg('girafa.png');
+    giraffe = await loadImg('images/girafa.png');
   } catch (e) {
     hint.textContent = '[ failed to load images ]';
     return;

@@ -69,7 +69,7 @@ const CAT_MAP = {
   accessories: { list: BOW_LIST,  type: 'bow', label: 'Accessories' },
 };
 
-const DEFAULT_CHAR = 'front_closeup_nobowtie_nobg.png';
+const DEFAULT_CHAR = 'pfp/characters/front_closeup_nobowtie_nobg.png';
 let sb = null, sg = DEFAULT_CHAR, sbow = null;
 let btSize = 320; // Base bowtie size (position and scale are hardcoded per bowtie)
 let _bgZoom = 1.0;
