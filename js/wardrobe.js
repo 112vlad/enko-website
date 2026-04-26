@@ -49,19 +49,19 @@ const ACCS_LIST = [
   { src: 'pfp/accs/sombrero.png',            name: 'SOMBRERO' },
 ];
 const BOW_LIST = [
-  { src: 'pfp/bowtie/bacon.png',      name: 'BACON' },
-  { src: 'pfp/bowtie/dollar.png',     name: 'DOLLAR' },
-  { src: 'pfp/bowtie/israel.png',     name: 'ISRAEL', scale: 1.8 },
-  { src: 'pfp/bowtie/jhon pork.png',  name: 'JHON PORK' },
-  { src: 'pfp/bowtie/lego.png',       name: 'LEGO' },
-  { src: 'pfp/bowtie/lightning.png',  name: 'LIGHTNING' },
-  { src: 'pfp/bowtie/pumpfun.png',    name: 'PUMPFUN' },
-  { src: 'pfp/bowtie/shark.png',      name: 'SHARK' },
-  { src: 'pfp/bowtie/spiked.png',     name: 'SPIKED' },
-  { src: 'pfp/bowtie/superhero.png',  name: 'SUPERHERO' },
-  { src: 'pfp/bowtie/taco.png',       name: 'TACO' },
-  { src: 'pfp/bowtie/usa.png',        name: 'USA' },
-  { src: 'pfp/bowtie/wine.png',       name: 'WINE' },
+  { src: 'pfp/bowtie/bacon.png',      name: 'BACON',           x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/dollar.png',     name: 'DOLLAR',          x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/israel.png',     name: 'ISRAEL',          x: 500, y: 930, scale: 2.1 },
+  { src: 'pfp/bowtie/jhon pork.png',  name: 'JHON PORK',       x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/lego.png',       name: 'LEGO',            x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/lightning.png',  name: 'LIGHTNING',       x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/pumpfun.png',    name: 'PUMPFUN',         x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/shark.png',      name: 'SHARK',           x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/spiked.png',     name: 'SPIKED',          x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/superhero.png',  name: 'SUPERHERO',       x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/taco.png',       name: 'TACO',            x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/usa.png',        name: 'USA',             x: 500, y: 930, scale: 1.4 },
+  { src: 'pfp/bowtie/wine.png',       name: 'WINE',            x: 500, y: 930, scale: 1.0 },
 ];
 const CAT_MAP = {
   characters:  { list: ACCS_LIST, type: 'gf',  label: 'Characters' },
@@ -70,11 +70,9 @@ const CAT_MAP = {
 };
 
 let sb = null, sg = null, sbow = null;
-let btPos = { x: 500, y: 930 }, btSize = 320;
-let btSizeMultiplier = 1;
+let btSize = 320; // Base bowtie size (position and scale are hardcoded per bowtie)
 let _bgZoom = 1.0;
 let _bgOffsetX = 0;
-let _isDrag = false, _dragOff = { x: 0, y: 0 };
 let _activeCat = 'characters';
 let _wardrobeInited = false;
 
@@ -137,13 +135,8 @@ function buildCategory(cat) {
       }
       else if (type === 'gf') sg = item.src;
       else { 
-        sbow = item.src; 
-        btPos = { x: 500, y: 930 };
-        btSizeMultiplier = 1;
-        const bowSizeSlider = document.getElementById('bow-size-slider');
-        if (bowSizeSlider) bowSizeSlider.value = 100;
-        const sizeDisplay = document.getElementById('size-display');
-        if (sizeDisplay) sizeDisplay.textContent = '100%';
+        sbow = item.src;
+        // Bowtie position and scale are now hardcoded per style
       }
       if (slotClear) slotClear.style.display = 'inline';
       updateSummary();
@@ -156,8 +149,6 @@ function buildCategory(cat) {
 function setCategory(cat) {
   _activeCat = cat;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
-  const sizeGroup = document.getElementById('size-group');
-  if (sizeGroup) sizeGroup.style.display = cat === 'accessories' ? 'block' : 'none';
   buildCategory(cat);
 }
 
@@ -168,11 +159,7 @@ function clearCurrentSlot() {
   else if (type === 'gf') sg = null;
   else {
     sbow = null;
-    btSizeMultiplier = 1;
-    const bowSizeSlider = document.getElementById('bow-size-slider');
-    if (bowSizeSlider) bowSizeSlider.value = 100;
-    const sizeDisplay = document.getElementById('size-display');
-    if (sizeDisplay) sizeDisplay.textContent = '100%';
+    // Bowtie size/position settings removed
   }
   buildCategory(_activeCat);
   updateSummary();
@@ -180,18 +167,6 @@ function clearCurrentSlot() {
 }
 
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => setCategory(t.dataset.cat)));
-
-const bowSizeSlider = document.getElementById('bow-size-slider');
-if (bowSizeSlider) {
-  bowSizeSlider.addEventListener('input', e => {
-    btSizeMultiplier = parseFloat(e.target.value) / 100;
-    const sizeDisplay = document.getElementById('size-display');
-    if (sizeDisplay) sizeDisplay.textContent = e.target.value + '%';
-    render();
-  });
-}
-
-
 
 buildCategory('characters');
 
@@ -217,44 +192,14 @@ function updateSummary() {
   if (pmBow)  pmBow.textContent  = bwN;
 }
 
-/* ── CANVAS DRAG ── */
+/* ── CANVAS — Style Selection Only ── */
 const _ppc = document.getElementById('ppc');
 function _cv(e) {
   const r = _ppc.getBoundingClientRect();
   return { x: (e.clientX - r.left) * (1000 / r.width), y: (e.clientY - r.top) * (1000 / r.height) };
 }
-_ppc.addEventListener('mousedown', e => {
-  if (!sbow) return;
-  const p = _cv(e), bow = _imgCache[sbow];
-  if (!bow) return;
-  const bowScale = BOW_LIST.find(x => x.src === sbow)?.scale || 1;
-  const bw = btSize * bowScale * btSizeMultiplier;
-  const bh = bw * (bow.height / bow.width);
-  if (p.x >= btPos.x - bw / 2 && p.x <= btPos.x + bw / 2 &&
-      p.y >= btPos.y - bh / 2 && p.y <= btPos.y + bh / 2) {
-    _isDrag = true;
-    _dragOff = { x: p.x - btPos.x, y: p.y - btPos.y };
-    e.preventDefault();
-  }
-});
-_ppc.addEventListener('mousemove', e => {
-  if (_isDrag) {
-    const p = _cv(e);
-    btPos = { x: p.x - _dragOff.x, y: p.y - _dragOff.y };
-    render();
-  }
-  if (sbow) {
-    const bow = _imgCache[sbow]; if (!bow) return;
-    const bowScale = BOW_LIST.find(x => x.src === sbow)?.scale || 1;
-    const bw = btSize * bowScale * btSizeMultiplier;
-    const bh = bw * (bow.height / bow.width);
-    const p = _cv(e);
-    const over = p.x >= btPos.x - bw / 2 && p.x <= btPos.x + bw / 2 &&
-                 p.y >= btPos.y - bh / 2 && p.y <= btPos.y + bh / 2;
-    _ppc.style.cursor = over ? (_isDrag ? 'grabbing' : 'grab') : 'default';
-  }
-}, { passive: true });
-window.addEventListener('mouseup', () => { _isDrag = false; });
+
+/* Drag functionality removed — bowtie position is now hardcoded per style */
 
 /* ── RENDER ── */
 async function render() {
@@ -285,11 +230,15 @@ async function render() {
   if (sbow) {
     try {
       const bow = await loadImg(sbow);
-      const bowScale = BOW_LIST.find(x => x.src === sbow)?.scale || 1;
-      const bw = btSize * bowScale * btSizeMultiplier;
+      const bowData = BOW_LIST.find(x => x.src === sbow) || {};
+      const bowScale = bowData.scale || 1;
+      const bowX = bowData.x || 500;
+      const bowY = bowData.y || 930;
+      const bw = btSize * bowScale;
       const bh = bw * (bow.height / bow.width);
-      ctx.drawImage(bow, btPos.x - bw / 2, btPos.y - bh / 2, bw, bh);
-      if (dragHint) dragHint.style.opacity = '0.65';
+      ctx.drawImage(bow, bowX - bw / 2, bowY - bh / 2, bw, bh);
+      // Drag hint removed since dragging is no longer allowed
+      if (dragHint) dragHint.style.opacity = '0';
     } catch (_) { }
   } else {
     if (dragHint) dragHint.style.opacity = '0';
@@ -332,7 +281,6 @@ function doReset() {
   if (dlbtn2) dlbtn2.disabled = true;
   const dragHint = document.getElementById('drag-hint');
   if (dragHint) dragHint.style.opacity = '0';
-  btPos = { x: 500, y: 930 };
   buildCategory(_activeCat);
   updateSummary();
 }
