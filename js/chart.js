@@ -5,6 +5,16 @@ const CHART_POOL = 'BWFZkx1pMpvwxammwTrizvoWzZZGiFEYUYW6Ee51SHLy';
 const GT = 'https://api.geckoterminal.com/api/v2/networks/solana';
 const TF_MAP = { '1m': 1, '5m': 5 };
 
+/* Separate caches for each timeframe to avoid stale data when switching */
+let _cacheCandles = { 
+  '1m': { data: null, time: 0, ttl: 60000 },
+  '5m': { data: null, time: 0, ttl: 60000 }
+};
+let _cacheToken = { data: null, time: 0, ttl: 60000 };
+let _cacheTrades = { data: null, time: 0, ttl: 60000 };
+
+const API_VERSION = '20230203';
+
 let _chartTf = '1m';
 let _chartCandles = [];
 let _chartMeta = null;
@@ -45,16 +55,28 @@ function fmtUsd(v) {
 
 async function fetchChartToken() {
   try {
-    const r = await fetch(`${GT}/pools/${CHART_POOL}`);
+    // Check cache first (API backend caches for 1 minute)
+    const now = Date.now();
+    if (_cacheToken.data && (now - _cacheToken.time) < _cacheToken.ttl) {
+      return _cacheToken.data;
+    }
+
+    const r = await fetch(`${GT}/pools/${CHART_POOL}`, {
+      headers: { 'Accept': `application/json;version=${API_VERSION}` }
+    });
     const d = await r.json();
     const a = d.data?.attributes;
     if (!a) return;
+    
     const price = parseFloat(a.base_token_price_usd) || 0;
     const mcap = parseFloat(a.market_cap_usd) || parseFloat(a.fdv_usd) || 0;
     if (price > 0 && mcap > 0) _chartSupply = mcap / price;
     const change = parseFloat(a.price_change_percentage?.h24) || 0;
     const vol = parseFloat(a.volume_usd?.h24) || 0;
     const liq = parseFloat(a.reserve_in_usd) || 0;
+
+    // Cache the result
+    _cacheToken = { data: { price, mcap, change, vol, liq }, time: now, ttl: 60000 };
 
     const priceEl = document.getElementById('ch-price');
     const changeEl = document.getElementById('ch-change');
@@ -90,14 +112,41 @@ async function fetchChartToken() {
 
 async function fetchChartCandles(tf) {
   try {
+    // Check cache for this specific timeframe (API backend caches for 1 minute)
+    const now = Date.now();
+    const cache = _cacheCandles[tf];
+    if (cache && cache.data && (now - cache.time) < cache.ttl) {
+      return cache.data;
+    }
+
     const agg = TF_MAP[tf];
-    const r = await fetch(`${GT}/pools/${CHART_POOL}/ohlcv/minute?aggregate=${agg}&limit=100&currency=usd&token=base`);
+    const r = await fetch(`${GT}/pools/${CHART_POOL}/ohlcv/minute?aggregate=${agg}&limit=100&currency=usd&token=base`, {
+      headers: { 'Accept': `application/json;version=${API_VERSION}` }
+    });
+    
+    // Check for rate limiting
+    if (r.status === 429) {
+      console.warn('Rate limited by GeckoTerminal API (10 calls/min limit). Using cached data.');
+      return cache?.data;
+    }
+    
+    if (!r.ok) {
+      console.warn(`API error: ${r.status}`);
+      return cache?.data;
+    }
+    
     const d = await r.json();
     const raw = d.data?.attributes?.ohlcv_list;
     if (!raw || raw.length < 2) return null;
-    return raw.slice().reverse().map(c => ({ t: c[0], o: c[1], h: c[2], l: c[3], c: c[4] }));
+    
+    const candles = raw.slice().reverse().map(c => ({ t: c[0], o: c[1], h: c[2], l: c[3], c: c[4] }));
+    
+    // Cache the result for this timeframe
+    _cacheCandles[tf] = { data: candles, time: now, ttl: 60000 };
+    return candles;
   } catch (e) {
-    return null;
+    console.warn('chart candles fetch', e);
+    return _cacheCandles[tf]?.data; // Return cached data on error
   }
 }
 
@@ -366,12 +415,28 @@ document.querySelectorAll('.ch-tf-btn').forEach(btn => {
     if (btn.classList.contains('active')) return;
     document.querySelectorAll('.ch-tf-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    _chartTf = btn.dataset.tf;
-    const candles = await fetchChartCandles(_chartTf);
-    if (candles && candles.length > 1) {
-      _chartCandles = candles;
+    const newTf = btn.dataset.tf;
+    
+    // Check if we have cached data for this timeframe first
+    const cache = _cacheCandles[newTf];
+    const now = Date.now();
+    const hasFreshCache = cache && cache.data && (now - cache.time) < cache.ttl;
+    
+    if (hasFreshCache) {
+      // Use cached data immediately
+      _chartTf = newTf;
+      _chartCandles = cache.data;
       resetViewToLatest(_chartCandles.length);
-      drawEnkoChart(candles);
+      drawEnkoChart(_chartCandles);
+    } else {
+      // Fetch fresh data only if cache is stale
+      _chartTf = newTf;
+      const candles = await fetchChartCandles(_chartTf);
+      if (candles && candles.length > 1) {
+        _chartCandles = candles;
+        resetViewToLatest(_chartCandles.length);
+        drawEnkoChart(candles);
+      }
     }
   });
 });
@@ -383,10 +448,33 @@ window.addEventListener('resize', () => {
 /* ── LEDGER — live trades ── */
 async function fetchTrades() {
   try {
-    const r = await fetch(`${GT}/pools/${CHART_POOL}/trades`);
+    // Check cache first (API backend caches for 1 minute)
+    const now = Date.now();
+    if (_cacheTrades.data && (now - _cacheTrades.time) < _cacheTrades.ttl) {
+      return;
+    }
+
+    const r = await fetch(`${GT}/pools/${CHART_POOL}/trades`, {
+      headers: { 'Accept': `application/json;version=${API_VERSION}` }
+    });
+    
+    // Check for rate limiting
+    if (r.status === 429) {
+      console.warn('Rate limited by GeckoTerminal API (10 calls/min limit).');
+      return;
+    }
+    
+    if (!r.ok) {
+      console.warn(`API error: ${r.status}`);
+      return;
+    }
+
     const d = await r.json();
     const trades = d.data;
     if (!trades || !trades.length) return;
+
+    // Cache the result
+    _cacheTrades = { data: trades, time: now, ttl: 60000 };
 
     const tbody = document.getElementById('tx-body');
     if (!tbody) return;
@@ -450,15 +538,20 @@ async function initCharts() {
     drawDemoEnkoChart();
   }
 
-  /* trades loop — first result already prefetched */
+  /* trades loop — every 12 seconds (5 calls/min) */
   await _prefetch.trades;
   (async function tradesLoop() {
     await fetchTrades();
     setTimeout(tradesLoop, 12000);
   })();
 
+  /* Update token data every 30 seconds (2 calls/min) */
   setInterval(async () => {
     fetchChartToken();
+  }, 30000);
+
+  /* Update charts every 30 seconds (2 calls/min) + trades (5) + token (2) = 9 calls/min */
+  setInterval(async () => {
     if (!_chartLoading && _chartCandles.length) {
       const fresh = await fetchChartCandles(_chartTf);
       if (fresh && fresh.length > 1) {
@@ -468,5 +561,5 @@ async function initCharts() {
         drawEnkoChart(fresh);
       }
     }
-  }, 7000);
+  }, 30000);
 }
