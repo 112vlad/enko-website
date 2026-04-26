@@ -145,11 +145,27 @@ function navigateTo(to, onEnter) {
   }
 
   if (onEnter) onEnter();
+
+  /* update URL */
+  const hash = PAGE_HASH[to];
+  history.pushState({ page: to }, '', hash ? '#' + hash : location.pathname);
 }
+
+const PAGE_HASH = { main: '', community: 'community', pfp: 'wardrobe' };
+const HASH_PAGE = { '': 'main', 'community': 'community', 'wardrobe': 'pfp' };
 
 function goToPfp()      { navigateTo('pfp', () => { if (typeof initWardrobeDefaults === 'function') initWardrobeDefaults(); }); }
 function goToCommunity(){ navigateTo('community'); }
 function goToMain()     { navigateTo('main'); }
+
+/* handle browser back/forward */
+window.addEventListener('popstate', () => {
+  const page = HASH_PAGE[location.hash.replace('#', '')] ?? 'main';
+  if (page === currentPage) return;
+  if (page === 'pfp') goToPfp();
+  else if (page === 'community') goToCommunity();
+  else goToMain();
+});
 
 document.getElementById('nav-pfp-link').addEventListener('click', e => { e.preventDefault(); goToPfp(); });
 document.getElementById('nav-community-link').addEventListener('click', e => { e.preventDefault(); goToCommunity(); });
