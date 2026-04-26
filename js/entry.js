@@ -44,24 +44,50 @@ async function initEntryCanvas() {
 
   const neck = { x: IW * .36, y: IH * .33, w: IW * .28, h: IH * .60 };
   let mx = IW / 2, my = IH / 2, hovering = false, phase = 0;
+  const isMobile = navigator.maxTouchPoints > 0 || 'ontouchstart' in window;
 
-  canvas.addEventListener('mousemove', e => {
-    const r = canvas.getBoundingClientRect();
-    mx = (e.clientX - r.left) * (IW / r.width);
-    my = (e.clientY - r.top) * (IH / r.height);
-    hovering = mx >= neck.x && mx <= neck.x + neck.w && my >= neck.y && my <= neck.y + neck.h;
-    _pcTargetScale = hovering ? 1.45 : 1;
-    hint.classList.toggle('ready', hovering);
-    hint.textContent = hovering ? '[ click to enter ]' : '[ hover neck & click to enter ]';
-  });
+  if (isMobile) {
+    canvas.style.cursor = '';
+    hint.textContent = '[ tap neck to enter ]';
 
-  canvas.addEventListener('mouseleave', () => {
-    hovering = false; _pcTargetScale = 1;
-    hint.classList.remove('ready');
-    hint.textContent = '[ hover neck & click to enter ]';
-  });
+    canvas.addEventListener('touchend', e => {
+      e.preventDefault();
+      const touch = e.changedTouches[0];
+      const r = canvas.getBoundingClientRect();
+      const tx = (touch.clientX - r.left) * (IW / r.width);
+      const ty = (touch.clientY - r.top) * (IH / r.height);
+      const onNeck = tx >= neck.x && tx <= neck.x + neck.w && ty >= neck.y && ty <= neck.y + neck.h;
+      if (onNeck) {
+        enterMain();
+      } else {
+        hint.classList.add('ready');
+        hint.textContent = '[ tap the neck ]';
+        setTimeout(() => {
+          hint.classList.remove('ready');
+          hint.textContent = '[ tap neck to enter ]';
+        }, 900);
+      }
+    }, { passive: false });
 
-  canvas.addEventListener('click', () => { if (hovering) enterMain(); });
+  } else {
+    canvas.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      mx = (e.clientX - r.left) * (IW / r.width);
+      my = (e.clientY - r.top) * (IH / r.height);
+      hovering = mx >= neck.x && mx <= neck.x + neck.w && my >= neck.y && my <= neck.y + neck.h;
+      _pcTargetScale = hovering ? 1.45 : 1;
+      hint.classList.toggle('ready', hovering);
+      hint.textContent = hovering ? '[ click to enter ]' : '[ hover neck & click to enter ]';
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      hovering = false; _pcTargetScale = 1;
+      hint.classList.remove('ready');
+      hint.textContent = '[ hover neck & click to enter ]';
+    });
+
+    canvas.addEventListener('click', () => { if (hovering) enterMain(); });
+  }
 
   (function frame() {
     ctx.clearRect(0, 0, IW, IH);
@@ -85,7 +111,7 @@ function showEntry() {
     e.classList.add('on');
     requestAnimationFrame(() => requestAnimationFrame(() => {
       e.classList.add('vis');
-      activateBowtie();
+      if (!(navigator.maxTouchPoints > 0 || 'ontouchstart' in window)) activateBowtie();
     }));
     initEntryCanvas();
   }, 700);

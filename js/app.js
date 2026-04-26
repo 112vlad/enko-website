@@ -183,3 +183,38 @@ document.getElementById('community-cta-btn')?.addEventListener('click', goToComm
 
 /* ── THEME TOGGLE ── */
 document.documentElement.setAttribute('data-theme', 'dark');
+
+/* ── CONTRACT ADDRESS COPY ── */
+const ENKO_CA = ''; /* paste CA here when live */
+
+(function initCA() {
+  const text = document.getElementById('ca-text-chart');
+  const btn  = document.getElementById('ca-copy-chart');
+  if (!text || !btn) return;
+  if (ENKO_CA) {
+    text.textContent = ENKO_CA.slice(0, 4) + '…' + ENKO_CA.slice(-4);
+    text.style.color = 'var(--ink-soft)';
+    btn.style.display = 'inline-block';
+  }
+})();
+
+function copyCA() {
+  if (!ENKO_CA) return;
+  navigator.clipboard.writeText(ENKO_CA).then(() => showToast('Copied'));
+}
+
+function shareOnX() {
+  window.open(`https://x.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`, '_blank');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('copy-toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(12px)';
+  }, 1800);
+}

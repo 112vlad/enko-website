@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="css/intro.css">
 <link rel="stylesheet" href="css/wardrobe.css">
 <link rel="stylesheet" href="css/community.css">
+<link rel="stylesheet" href="css/mobile.css">
+<link rel="icon" href="girafacoin.png">
+<link rel="apple-touch-icon" href="girafacoin.png">
 </head>
 <body>
 
@@ -46,7 +49,7 @@
           <a href="#section-character" class="active">Overview</a>
           <a href="#" id="nav-community-link">Community</a>
           <a href="#" id="nav-pfp-link">Wardrobe</a>
-          <a href="#section-acquire">Acquire</a>
+          <a href="https://pump.fun/enkoSOL" target="_blank">Acquire</a>
         </nav>
         <div class="topbar-cta">
           <span class="pill"><span class="dot"></span>SOL · LIVE</span>
@@ -267,6 +270,13 @@
             <div id="ch-tooltip" style="position:absolute;pointer-events:none;display:none;background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:11px;padding:8px 10px;white-space:pre;line-height:1.7;box-shadow:0 4px 14px rgba(0,0,0,.18)"></div>
           </div>
         </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 26px;border-top:1px solid var(--rule-soft)">
+          <div class="eyebrow">Contract Address</div>
+          <div id="ca-row-chart" style="display:flex;align-items:center;gap:10px">
+            <span id="ca-text-chart" style="font-family:var(--f-mono);font-size:11px;color:var(--ink-mute)">coming soon</span>
+            <button id="ca-copy-chart" onclick="copyCA()" style="display:none;font-family:var(--f-mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-mute);border:1px solid var(--rule);padding:3px 8px;transition:color .15s,border-color .15s">copy</button>
+          </div>
+        </div>
       </div>
 
       <div class="section-divider"><span>✠ · I</span></div>
@@ -305,8 +315,8 @@
       </div>
       <div class="feature-grid">
         <div class="feature-copy">
-          <p>Enko was not designed to react. He was designed to observe — from a height other market participants cannot reach, and on a timescale they rarely consider.</p>
-          <p>Where others chase the ground, Enko eats from the canopy. Where others dart, Enko arrives.</p>
+          <p>Enko does not react. He watches. Positioned higher than most, moving slower than all.</p>
+          <p>The market runs on the ground. Enko grazes above it.</p>
           <div class="feature-caption">
             <div class="cell"><div class="k">Height</div><div class="v">4.8 metres</div></div>
             <div class="cell"><div class="k">Pattern</div><div class="v">26 plates</div></div>
@@ -332,13 +342,9 @@
           <img src="pfp/accs/chrome.png" alt="Wardrobe preview" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;">
         </div>
         <div class="feature-copy" style="grid-column:9/span 4;padding-top:0;justify-content:center">
-          <p>A studio of considered objects. Each piece is a decision.</p>
+          <p>Pick a character. Add a background. Put a bowtie on him.</p>
           <div style="margin-top:20px">
             <button class="btn" id="wardrobe-cta-btn">Enter the wardrobe <span class="arrow">→</span></button>
-          </div>
-          <div style="margin-top:32px">
-            <div class="eyebrow" style="margin-bottom:8px">Contract Address</div>
-            <div style="font-family:var(--f-mono);font-size:11px;color:var(--ink-mute)">coming soon · pump.fun/enkoSOL</div>
           </div>
         </div>
       </div>
@@ -353,7 +359,7 @@
       </div>
       <div class="feature-grid" style="padding-bottom:48px">
         <div class="feature-copy" style="grid-column:1/span 4;padding-top:0;justify-content:center">
-          <p>A gallery of everything made around Enko. Art, memes, and moments from the herd.</p>
+          <p>Fan art, memes, and clips from the community.</p>
           <div style="margin-top:20px">
             <button class="btn" id="community-cta-btn">Enter the community <span class="arrow">→</span></button>
           </div>
@@ -372,21 +378,12 @@
             </div>
           </div>
           <div class="footer-col">
-            <div class="h">Token</div>
-            <a href="#">Chart</a>
-            <a href="#">Holders</a>
-            <a href="#">Contract</a>
-          </div>
-          <div class="footer-col">
             <div class="h">Studio</div>
             <a href="#" id="footer-wardrobe-link">Wardrobe</a>
-            <a href="#">Portraits</a>
-            <a href="#">Downloads</a>
           </div>
           <div class="footer-col">
             <div class="h">Elsewhere</div>
-            <a href="https://x.com/enko" target="_blank">Twitter / X</a>
-            <a href="https://discord.gg/enko" target="_blank">Discord</a>
+            <a href="https://x.com/enkosol" target="_blank">Twitter / X</a>
             <a href="https://pump.fun/enkoSOL" target="_blank">Pump.fun</a>
           </div>
         </div>
@@ -416,7 +413,7 @@
           <a href="#" id="nav-main-link-pfp">Overview</a>
           <a href="#" id="nav-community-link-pfp">Community</a>
           <a href="#" class="active">Wardrobe</a>
-          <a href="#section-acquire" id="nav-acquire-link-pfp">Acquire</a>
+          <a href="https://pump.fun/enkoSOL" target="_blank" id="nav-acquire-link-pfp">Acquire</a>
         </nav>
         <div class="topbar-cta">
           <span class="pill"><span class="dot"></span>SOL · LIVE</span>
@@ -433,7 +430,7 @@
           <h1 class="wardrobe-title">The <span class="it">Portrait</span><br>Studio.</h1>
         </div>
         <div class="wardrobe-head-right">
-          <p>Select an accessory. Set a background. Save your portrait and use it wherever a face is asked of you.</p>
+          <p>Build your Enko. Download and use it anywhere.</p>
 
         </div>
       </div>
@@ -471,11 +468,11 @@
             <canvas id="ppc" width="1000" height="1000"></canvas>
           </div>
           <div class="portrait-meta">
-            <div class="cell"><div class="k">Scene</div><div class="v" id="pm-bg">—</div></div>
             <div class="cell"><div class="k">Character</div><div class="v" id="pm-char">—</div></div>
+            <div class="cell"><div class="k">Scene</div><div class="v" id="pm-bg">—</div></div>
             <div class="cell"><div class="k">Accessory</div><div class="v" id="pm-bow">—</div></div>
-            <div class="cell"><div class="k">Hint</div><div class="v drag-hint" id="drag-hint" style="opacity:0;font-style:italic;font-size:11px">position fixed</div></div>
           </div>
+          <button class="btn wardrobe-mobile-dl" onclick="document.getElementById('dlbtn').click()">Download PNG <span class="arrow">↓</span></button>
         </section>
 
         <!-- HIDDEN BUTTONS (triggered by visible buttons) -->
@@ -485,7 +482,7 @@
         <!-- RIGHT: manifest + export -->
         <aside class="wardrobe-summary">
           <div class="eyebrow">Manifest</div>
-          <h3 class="summary-title">A portrait,<br><span class="it">assembled.</span></h3>
+          <h3 class="summary-title">Your<br><span class="it">build.</span></h3>
           <div class="summary-list">
             <div class="summary-row"><span class="k">Scene</span><span class="v" id="sel-bg">—</span></div>
             <div class="summary-row"><span class="k">Character</span><span class="v" id="sel-char">—</span></div>
@@ -495,6 +492,7 @@
             <div class="eyebrow" style="margin-bottom:10px">Export</div>
             <div style="display:flex;flex-direction:column;gap:8px">
               <button class="btn" onclick="document.getElementById('dlbtn').click()" style="justify-content:space-between;width:100%">Download PNG <span class="arrow">↓</span></button>
+              <button class="btn ghost" onclick="shareOnX()" style="justify-content:space-between;width:100%">Share on X <span class="arrow">→</span></button>
               <button class="btn ghost" onclick="document.getElementById('rstbtn').click()" style="justify-content:space-between;width:100%">Reset <span>×</span></button>
             </div>
           </div>
@@ -527,7 +525,7 @@
           <a href="#" id="nav-main-link-community">Overview</a>
           <a href="#" class="active">Community</a>
           <a href="#" id="nav-wardrobe-link-community">Wardrobe</a>
-          <a href="#section-acquire" id="nav-acquire-link-community">Acquire</a>
+          <a href="https://pump.fun/enkoSOL" target="_blank" id="nav-acquire-link-community">Acquire</a>
         </nav>
         <div class="topbar-cta">
           <span class="pill"><span class="dot"></span>SOL · LIVE</span>
@@ -543,7 +541,7 @@
           <h1>From the <span class="it">habitat.</span></h1>
         </div>
         <div class="community-head-right">
-          <p>Art, memes, and moments from around the Enko universe. Made by the herd.</p>
+          <p>Everything made around Enko, by the people who hold it.</p>
         </div>
       </div>
 
@@ -561,6 +559,9 @@
 
     </main>
   </div><!-- /page-community -->
+
+  <!-- COPY TOAST -->
+  <div id="copy-toast" style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 20px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:9999">Copied</div>
 
   <!-- GALLERY LIGHTBOX -->
   <div id="gallery-lightbox">

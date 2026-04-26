@@ -25,6 +25,7 @@
   --gutter:   calc(32px * var(--density));
 }
 
+html { scroll-behavior: smooth; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
@@ -505,7 +506,7 @@ img { display: block; max-width: 100%; }
 }
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 48px;
   margin-bottom: 40px;
 }
@@ -636,7 +637,7 @@ img { display: block; max-width: 100%; }
 }
 .portrait-meta {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
   border: 1px solid var(--rule);
 }
@@ -796,6 +797,8 @@ img { display: block; max-width: 100%; }
 .tweak-row .opt.active {
   background: var(--ink); color: var(--bg); border-color: var(--ink);
 }
+
+.wardrobe-mobile-dl { display: none; }
 
 /* ---------- utilities ---------- */
 .hidden { display: none !important; }

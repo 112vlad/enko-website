@@ -69,24 +69,22 @@ const CAT_MAP = {
   accessories: { list: BOW_LIST,  type: 'bow', label: 'Accessories' },
 };
 
-let sb = null, sg = null, sbow = null;
+const DEFAULT_CHAR = 'front_closeup_nobowtie_nobg.png';
+let sb = null, sg = DEFAULT_CHAR, sbow = null;
 let btSize = 320; // Base bowtie size (position and scale are hardcoded per bowtie)
 let _bgZoom = 1.0;
 let _bgOffsetX = 0;
 let _activeCat = 'characters';
 let _wardrobeInited = false;
 
-/* ── DEFAULT: select lakers on first open ── */
+/* ── DEFAULT: show base character on first open ── */
 function initWardrobeDefaults() {
   if (_wardrobeInited) return;
   _wardrobeInited = true;
-  const lakers = ACCS_LIST.find(x => x.name === 'LAKERS');
-  if (lakers) {
-    sg = lakers.src;
-    setCategory('characters');
-    updateSummary();
-    render();
-  }
+  sg = DEFAULT_CHAR;
+  setCategory('characters');
+  updateSummary();
+  render();
 }
 
 /* ── GRID ── */
@@ -156,7 +154,7 @@ function setCategory(cat) {
 function clearCurrentSlot() {
   const { type } = CAT_MAP[_activeCat];
   if (type === 'bg') sb = null;
-  else if (type === 'gf') sg = null;
+  else if (type === 'gf') sg = DEFAULT_CHAR;
   else {
     sbow = null;
     // Bowtie size/position settings removed

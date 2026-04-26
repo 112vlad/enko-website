@@ -1,0 +1,175 @@
+/* ============================================================
+   ENKO — mobile responsive (max-width: 768px / 480px)
+   Desktop is completely unaffected — all rules are media-gated
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  /* ── spacing tokens ── */
+  :root {
+    --pad-page: 20px;
+    --pad-sec:  48px;
+    --gutter:   16px;
+  }
+
+  /* ── topbar ── */
+  .topbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px var(--pad-page);
+  }
+  .topbar-cta { display: none; }
+  .nav { gap: 12px; }
+  .nav a { font-size: 11px; letter-spacing: 0; }
+
+  /* ── hero ── */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    padding: 32px 0 24px !important;
+    min-height: unset !important;
+    align-items: start !important;
+  }
+  .hero-right {
+    order: -1;
+    align-items: center !important;
+  }
+  .emblem-stack { max-width: 220px !important; margin: 0 auto; }
+  .hero-labels { flex-wrap: wrap; gap: 8px; }
+  .hero-cta-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .hero-cta-row a,
+  .hero-cta-row button { width: 100%; justify-content: center; }
+  .hero-meta { width: 100% !important; }
+
+  /* ── brand strip ── */
+  .brand-strip {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 14px;
+    padding: 14px 0;
+  }
+
+  /* ── stats strip ── */
+  .stats-strip { grid-template-columns: repeat(2, 1fr) !important; }
+  .stat-cell { border-bottom: 1px solid var(--rule-soft); }
+  .stat-cell:nth-child(even) { border-right: none; }
+  .stat-cell:last-child {
+    grid-column: span 2;
+    border-bottom: none;
+  }
+
+  /* ── chart ── */
+  .chart-header {
+    padding: 14px 16px 12px;
+    gap: 10px;
+  }
+  .chart-price { font-size: 22px; }
+
+  /* ── section dividers ── */
+  .section-divider { height: 56px; }
+
+  /* ── section heads ── */
+  .section-head {
+    grid-template-columns: 1fr !important;
+    gap: 6px;
+    padding: 18px 0 14px;
+  }
+  .section-head .side { display: none; }
+
+  /* ── feature grids — stack all columns ── */
+  .feature-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+    padding-bottom: 24px;
+  }
+  .feature-copy,
+  .feature-image { grid-column: 1 !important; }
+  .feature-image { aspect-ratio: 4/3; }
+  .feature-copy p { max-width: unset; }
+
+  /* ── transaction table — hide wallet + amount columns ── */
+  .txn-table th:nth-child(3),
+  .txn-table td:nth-child(3),
+  .txn-table th:nth-child(6),
+  .txn-table td:nth-child(6) { display: none; }
+  .txn-table td,
+  .txn-table th { padding: 10px 10px; }
+
+  /* ── footer ── */
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 20px;
+  }
+  .footer-head {
+    grid-column: 1 / -1;
+    font-size: 40px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .footer-bottom div { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ── wardrobe page ── */
+  .wardrobe-head {
+    grid-template-columns: 1fr !important;
+    gap: 8px;
+    padding: 20px 0 24px;
+  }
+  .wardrobe-title { font-size: clamp(36px, 11vw, 64px) !important; }
+  .wardrobe-head-right p { max-width: unset; }
+
+  .wardrobe-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+    padding: 20px 0;
+    min-height: unset;
+  }
+  .wardrobe-portrait { order: -1; } /* canvas always first */
+  .wardrobe-summary  { display: none; }
+  .wardrobe-controls .panel { max-height: 380px; }
+
+  /* ── wardrobe mobile download ── */
+  .wardrobe-mobile-dl { display: flex; width: 100%; justify-content: center; }
+
+  /* ── community page ── */
+  .community-head { grid-template-columns: 1fr; }
+  .community-head-right { display: none; }
+  .gallery-grid { columns: 2; }
+}
+
+/* ── very small screens (< 480px) ── */
+@media (max-width: 480px) {
+
+  :root { --pad-page: 16px; }
+
+  /* single-column stats */
+  .stats-strip { grid-template-columns: 1fr !important; }
+  .stat-cell {
+    border-right: none !important;
+    border-bottom: 1px solid var(--rule-soft) !important;
+  }
+  .stat-cell:last-child { grid-column: unset; border-bottom: none !important; }
+
+  /* even smaller nav */
+  .nav { gap: 10px; }
+  .nav a { font-size: 10px; }
+
+  /* hide 4th nav item (Acquire) — least critical on tiny screens */
+  .nav a:last-child { display: none; }
+
+  /* table: also hide value column */
+  .txn-table th:nth-child(5),
+  .txn-table td:nth-child(5) { display: none; }
+  .txn-table td,
+  .txn-table th { padding: 9px 8px; font-size: 11px; }
+
+
+  /* gallery single column */
+  .gallery-grid { columns: 1; }
+}
