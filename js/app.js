@@ -98,72 +98,58 @@ function loadImg(src) {
 }
 
 /* ── PAGE NAVIGATION ── */
-let currentPage = 'main'; // Track current page
+const PAGE_ORDER = { main: 0, community: 1, pfp: 2 };
+let currentPage = 'main';
 
-function goToPfp() {
-  const community = document.getElementById('page-community');
-  const main = document.getElementById('page-main');
-  const pfp = document.getElementById('page-pfp');
-  
-  community.classList.remove('pg-on', 'slide-from-left', 'slide-from-right');
-  
-  if (currentPage === 'main') {
-    // Overview → Wardrobe: slide from right
-    main.classList.add('pg-off', 'slide-right');
-    pfp.classList.remove('slide-from-left', 'slide-from-right');
-  } else if (currentPage === 'community') {
-    // Community → Wardrobe: slide from left
-    community.classList.add('slide-from-left');
-    pfp.classList.remove('slide-from-right');
+function navigateTo(to, onEnter) {
+  const from = currentPage;
+  if (from === to) return;
+  currentPage = to;
+
+  const forward = PAGE_ORDER[to] > PAGE_ORDER[from];
+  const fromEl = document.getElementById('page-' + from);
+  const toEl   = document.getElementById('page-' + to);
+
+  /* snap incoming page to its off-screen starting position (no transition) */
+  toEl.style.transition = 'none';
+  toEl.style.transform  = forward ? 'translateX(100%)' : 'translateX(-100%)';
+  toEl.style.opacity    = '0';
+  toEl.style.pointerEvents = 'none';
+  toEl.offsetHeight; /* force reflow */
+  toEl.style.transition = '';
+
+  /* animate incoming page into view */
+  toEl.style.transform  = 'none';
+  toEl.style.opacity    = '1';
+  toEl.style.pointerEvents = 'auto';
+  if (to !== 'main') {
+    toEl.style.overflowX = 'hidden';
+    setTimeout(() => { if (currentPage === to) toEl.style.overflowY = 'auto'; }, 560);
+    toEl.scrollTop = 0;
   }
-  
-  pfp.classList.add('pg-on');
-  pfp.scrollTop = 0;
-  currentPage = 'pfp';
-  if (typeof initWardrobeDefaults === 'function') initWardrobeDefaults();
+
+  /* animate outgoing page off-screen */
+  fromEl.style.transform  = forward ? 'translateX(-100%)' : 'translateX(100%)';
+  fromEl.style.opacity    = '0';
+  fromEl.style.pointerEvents = 'none';
+
+  /* after transition: reset outgoing sub-page to default right position */
+  if (from !== 'main') {
+    setTimeout(() => {
+      fromEl.style.transition = 'none';
+      fromEl.style.transform  = 'translateX(100%)';
+      fromEl.style.overflowY  = 'hidden';
+      fromEl.offsetHeight;
+      fromEl.style.transition = '';
+    }, 600);
+  }
+
+  if (onEnter) onEnter();
 }
 
-function goToCommunity() {
-  const main = document.getElementById('page-main');
-  const pfp = document.getElementById('page-pfp');
-  const com = document.getElementById('page-community');
-  
-  pfp.classList.remove('pg-on', 'slide-from-left', 'slide-from-right');
-  
-  if (currentPage === 'main') {
-    // Overview → Community: slide from right
-    main.classList.add('pg-off', 'slide-right');
-    com.classList.remove('slide-from-left');
-  } else if (currentPage === 'pfp') {
-    // Wardrobe → Community: slide from left
-    pfp.classList.add('slide-from-right');
-    com.classList.remove('slide-from-left');
-  }
-  
-  com.classList.add('pg-on');
-  com.scrollTop = 0;
-  currentPage = 'community';
-}
-
-function goToMain() {
-  const main = document.getElementById('page-main');
-  const pfp = document.getElementById('page-pfp');
-  const com = document.getElementById('page-community');
-  
-  main.classList.remove('slide-right', 'slide-left');
-  
-  if (currentPage === 'pfp') {
-    // Wardrobe → Overview: slide in from left
-    pfp.classList.add('slide-from-right');
-  } else if (currentPage === 'community') {
-    // Community → Overview: slide in from left
-    com.classList.add('slide-from-left');
-  }
-  
-  pfp.classList.remove('pg-on');
-  com.classList.remove('pg-on');
-  currentPage = 'main';
-}
+function goToPfp()      { navigateTo('pfp', () => { if (typeof initWardrobeDefaults === 'function') initWardrobeDefaults(); }); }
+function goToCommunity(){ navigateTo('community'); }
+function goToMain()     { navigateTo('main'); }
 
 document.getElementById('nav-pfp-link').addEventListener('click', e => { e.preventDefault(); goToPfp(); });
 document.getElementById('nav-community-link').addEventListener('click', e => { e.preventDefault(); goToCommunity(); });

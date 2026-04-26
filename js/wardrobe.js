@@ -51,15 +51,15 @@ const ACCS_LIST = [
 const BOW_LIST = [
   { src: 'pfp/bowtie/bacon.png',      name: 'BACON',           x: 500, y: 930, scale: 1.0 },
   { src: 'pfp/bowtie/dollar.png',     name: 'DOLLAR',          x: 500, y: 930, scale: 1.0 },
-  { src: 'pfp/bowtie/israel.png',     name: 'ISRAEL',          x: 500, y: 930, scale: 2.1 },
+  { src: 'pfp/bowtie/israel.png',     name: 'ISRAEL',          x: 500, y: 930, scale: 2.1, swatchScale: 2.2 },
   { src: 'pfp/bowtie/jhon pork.png',  name: 'JHON PORK',       x: 500, y: 930, scale: 1.0 },
   { src: 'pfp/bowtie/lego.png',       name: 'LEGO',            x: 500, y: 930, scale: 1.0 },
   { src: 'pfp/bowtie/lightning.png',  name: 'LIGHTNING',       x: 500, y: 930, scale: 1.0 },
   { src: 'pfp/bowtie/pumpfun.png',    name: 'PUMPFUN',         x: 500, y: 930, scale: 1.0 },
-  { src: 'pfp/bowtie/shark.png',      name: 'SHARK',           x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/shark.png',      name: 'SHARK',           x: 500, y: 930, scale: 1.2 },
   { src: 'pfp/bowtie/spiked.png',     name: 'SPIKED',          x: 500, y: 930, scale: 1.0 },
   { src: 'pfp/bowtie/superhero.png',  name: 'SUPERHERO',       x: 500, y: 930, scale: 1.0 },
-  { src: 'pfp/bowtie/taco.png',       name: 'TACO',            x: 500, y: 930, scale: 1.0 },
+  { src: 'pfp/bowtie/taco.png',       name: 'TACO',            x: 500, y: 930, scale: 1.2 },
   { src: 'pfp/bowtie/usa.png',        name: 'USA',             x: 500, y: 930, scale: 1.4 },
   { src: 'pfp/bowtie/wine.png',       name: 'WINE',            x: 500, y: 930, scale: 1.0 },
 ];
@@ -118,7 +118,7 @@ function buildCategory(cat) {
 
     const imgStyle = cat === 'backgrounds'
       ? 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover'
-      : 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px';
+      : `position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px${item.swatchScale ? `;transform:scale(${item.swatchScale})` : ''}`;
 
     d.innerHTML = `
       <img src="${item.src}" alt="${item.name}" loading="lazy" style="${imgStyle}">
