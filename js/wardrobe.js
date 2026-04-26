@@ -270,17 +270,10 @@ document.getElementById('dlbtn')?.addEventListener('click', doDownload);
 
 /* ── RESET ── */
 function doReset() {
-  sb = null; sg = null; sbow = null;
-  _ppc.getContext('2d').clearRect(0, 0, 1000, 1000);
-  _ppc.style.display = 'none';
-  const ph = document.getElementById('ph');
-  if (ph) ph.style.display = 'flex';
-  const dlbtn2 = document.getElementById('dlbtn');
-  if (dlbtn2) dlbtn2.disabled = true;
-  const dragHint = document.getElementById('drag-hint');
-  if (dragHint) dragHint.style.opacity = '0';
-  buildCategory(_activeCat);
+  sb = null; sg = DEFAULT_CHAR; sbow = null;
+  setCategory('characters');
   updateSummary();
+  render();
 }
 
 document.getElementById('rstbtn')?.addEventListener('click', doReset);
