@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════
    ENKO — GeckoTerminal chart
 ══════════════════════════════════════ */
-const CHART_POOL = 'BWFZkx1pMpvwxammwTrizvoWzZZGiFEYUYW6Ee51SHLy';
+const CHART_POOL = '';
 const GT = 'https://api.geckoterminal.com/api/v2/networks/solana';
 const TF_MAP = { '1m': 1, '5m': 5 };
 
