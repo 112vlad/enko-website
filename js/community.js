@@ -3,13 +3,6 @@
 ══════════════════════════════════════ */
 
 const GALLERY_ITEMS = [
-  { src: 'community/bowtie store.png',       caption: 'Bowtie Store',       author: '@enko', type: 'ART' },
-  { src: 'community/dressing room.png',      caption: 'Dressing Room',      author: '@enko', type: 'ART' },
-  { src: 'community/astronaut.png',          caption: 'Astronaut',          author: '@enko', type: 'ART' },
-  { src: 'community/ready to trade.png',     caption: 'Ready to Trade',     author: '@enko', type: 'ART' },
-  { src: 'community/highway.mp4',            caption: 'Highway',            author: '@enko', type: 'VIDEO', video: true },
-  { src: 'community/highway2.mp4',           caption: 'Highway II',         author: '@enko', type: 'VIDEO', video: true },
-  { src: 'community/jumping in the mud.mp4', caption: 'Jumping in the Mud', author: '@enko', type: 'VIDEO', video: true },
 ];
 
 /* ── lightbox ── */
