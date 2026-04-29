@@ -3,6 +3,8 @@
 ══════════════════════════════════════ */
 
 const GALLERY_ITEMS = [
+  { src: 'community/bowtie store.png',  caption: 'Bowtie Store',   author: '@enkosol', type: 'ART' },
+  { src: 'community/dressing room.png', caption: 'Dressing Room',  author: '@enkosol', type: 'ART' },
 ];
 
 /* ── lightbox ── */

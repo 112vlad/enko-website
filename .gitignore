@@ -1,0 +1,4 @@
+# Large video files — host externally instead
+community/*.mp4
+community/*.mov
+community/*.webm
