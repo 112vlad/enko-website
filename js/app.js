@@ -201,7 +201,7 @@ document.getElementById('community-cta-btn')?.addEventListener('click', goToComm
 document.documentElement.setAttribute('data-theme', 'dark');
 
 /* ── CONTRACT ADDRESS COPY ── */
-const ENKO_CA = ''; /* paste CA here when live */
+const ENKO_CA = 'HXcGyLmJjhibRu3UriXeueALb7rRLAKvzV76SP11pump'; /* paste CA here when live */
 
 (function initCA() {
   const text = document.getElementById('ca-text-chart');
