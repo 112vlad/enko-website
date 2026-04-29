@@ -51,6 +51,7 @@
     justify-content: center;
     gap: 10px 14px;
     padding: 14px 0;
+    overflow: hidden;
   }
 
   /* ── stats strip ── */

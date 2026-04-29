@@ -68,7 +68,7 @@
 /* ── PAGE SYSTEM ── */
 #page-main, #page-pfp, #page-community {
   position: fixed; inset: 0;
-  overflow-y: auto; scroll-behavior: smooth;
+  overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth;
   transition: transform .55s cubic-bezier(.77,0,.175,1), opacity .5s;
   background: var(--bg);
   color: var(--ink);
