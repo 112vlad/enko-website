@@ -1,4 +1,2 @@
-# Large video files — host externally instead
-community/*.mp4
-community/*.mov
-community/*.webm
+# Claude Code settings
+.claude/settings.local.json
